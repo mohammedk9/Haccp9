@@ -18,15 +18,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    
-<style>
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: 'Tajawal', sans-serif;
-        transition: all 0.3s ease;
-    }
+   
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+</head>
+   
     <style>
         * {
             box-sizing: border-box;
@@ -969,7 +968,7 @@
                         <h4>سارة عبدالله</h4>
                         <div class="role">منسق الهاسب</div>
                         <div class="email">sara@example.com</div>
-                        <div class="phone">+966511111111</div>
+                        <div class="phone">+966</div>
                         <p>مسؤولة عن تدريب الموظفين ومتابعة تنفيذ الإجراءات التصحيحية</p>
                         <div class="actions">
                             <button class="btn btn-warning"><i class="fas fa-edit"></i> <span data-translate="edit">تعديل</span></button>
@@ -1069,10 +1068,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    
     <script>
     // تهيئة Firebase
     const firebaseConfig = {
