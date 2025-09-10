@@ -1072,6 +1072,8 @@
     
     <script>
     // تهيئة Firebase
+    import { initializeApp } from "firebase/app";
+    import { getAnalytics } from "firebase/analytics"; 
     const firebaseConfig = {
     apiKey: "AIzaSyDAyUO3yaoJHc5QlWtDscNBbxjdMMKUWeo",
     authDomain: "haccp9-c1da9.firebaseapp.com",
@@ -1081,6 +1083,9 @@
     appId: "1:1023766402500:web:a6862663bcb131840f0091",
     measurementId: "G-8WYC7DCDJC"
   };
+     
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);   
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
