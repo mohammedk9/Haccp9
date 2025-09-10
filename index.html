@@ -1090,7 +1090,7 @@ const db = firebase.firestore();
 function initAuth() {
     // الاستماع لتغير حالة المستخدم
     auth.onAuthStateChanged(user => {
-        console.log('Auth state changed', user); // ✅ إضافة للتأكد من الحالة
+        console.log('Auth state changed', user);
         if (user) {
             document.getElementById('login-modal').style.display = 'none';
             document.getElementById('register-modal').style.display = 'none';
@@ -1103,11 +1103,45 @@ function initAuth() {
         }
     });
 
-    // أحداث الأزرار
-    document.getElementById('login-btn').addEventListener('click', login);
-    document.getElementById('register-btn').addEventListener('click', register);
-    document.getElementById('logout-btn').addEventListener('click', logout);
+    // ربط أحداث الأزرار بعد التأكد من وجودها (الحل)
+    setTimeout(() => {
+        try {
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const showRegisterBtn = document.getElementById('show-register');
+            const showLoginBtn = document.getElementById('show-login');
+            
+            if (loginBtn) loginBtn.addEventListener('click', login);
+            else console.error('Login button not found');
+            
+            if (registerBtn) registerBtn.addEventListener('click', register);
+            else console.error('Register button not found');
+            
+            if (logoutBtn) logoutBtn.addEventListener('click', logout);
+            else console.error('Logout button not found');
+            
+            if (showRegisterBtn) {
+                showRegisterBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.getElementById('login-modal').style.display = 'none';
+                    document.getElementById('register-modal').style.display = 'flex';
+                });
+            }
+            
+            if (showLoginBtn) {
+                showLoginBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.getElementById('register-modal').style.display = 'none';
+                    document.getElementById('login-modal').style.display = 'flex';
+                });
+            }
+        } catch (error) {
+            console.error('Error binding auth events:', error);
+        }
+    }, 300);
 }
+
 
 // تسجيل الدخول
 function login() {
