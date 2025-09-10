@@ -1209,13 +1209,6 @@ document.addEventListener('DOMContentLoaded', initAuth);
         initEvents();
         initDarkMode();
 
-        const user = auth.currentUser;
-        if (user) {
-            loadUserData(user.uid);
-        } else {
-            loadData();
-        }
-
         setTimeout(() => {
             initCharts();
         }, 500);
@@ -1477,7 +1470,7 @@ document.addEventListener('DOMContentLoaded', initAuth);
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'نعم، احذفه!",
+                confirmButtonText: 'نعم، احذفه!',
                 cancelButtonText: 'إلغاء'
             }).then((result) => {
                 if (result.isConfirmed) {
