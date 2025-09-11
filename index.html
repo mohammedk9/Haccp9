@@ -1090,56 +1090,61 @@ const db = firebase.firestore();
 function initAuth() {
     // الاستماع لتغير حالة المستخدم
     auth.onAuthStateChanged(user => {
-        console.log('Auth state changed', user);
         if (user) {
-            document.getElementById('login-modal').style.display = 'none';
-            document.getElementById('register-modal').style.display = 'none';
+            // إخفاء نماذج التسجيل وعرض معلومات المستخدم
+            hideModal('login-modal');
+            hideModal('register-modal');
             document.getElementById('user-info').style.display = 'flex';
             document.getElementById('user-name').textContent = user.displayName || user.email;
+            
+            // تحميل بيانات المستخدم
+            loadUserData(user.uid);
         } else {
-            document.getElementById('login-modal').style.display = 'flex';
-            document.getElementById('register-modal').style.display = 'none';
+            // عرض نموذج التسجيل فقط
+            showModal('login-modal');
+            hideModal('register-modal');
             document.getElementById('user-info').style.display = 'none';
         }
     });
 
-    // ربط أحداث الأزرار بعد التأكد من وجودها (الحل)
-    setTimeout(() => {
-        try {
-            const loginBtn = document.getElementById('login-btn');
-            const registerBtn = document.getElementById('register-btn');
-            const logoutBtn = document.getElementById('logout-btn');
-            const showRegisterBtn = document.getElementById('show-register');
-            const showLoginBtn = document.getElementById('show-login');
-            
-            if (loginBtn) loginBtn.addEventListener('click', login);
-            else console.error('Login button not found');
-            
-            if (registerBtn) registerBtn.addEventListener('click', register);
-            else console.error('Register button not found');
-            
-            if (logoutBtn) logoutBtn.addEventListener('click', logout);
-            else console.error('Logout button not found');
-            
-            if (showRegisterBtn) {
-                showRegisterBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    document.getElementById('login-modal').style.display = 'none';
-                    document.getElementById('register-modal').style.display = 'flex';
-                });
-            }
-            
-            if (showLoginBtn) {
-                showLoginBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    document.getElementById('register-modal').style.display = 'none';
-                    document.getElementById('login-modal').style.display = 'flex';
-                });
-            }
-        } catch (error) {
-            console.error('Error binding auth events:', error);
-        }
-    }, 300);
+    // ربط أحداث الأزرار
+    bindAuthEvents();
+}
+
+// ربط أحداث المصادقة
+function bindAuthEvents() {
+    // تسجيل الدخول
+    document.getElementById('login-btn').addEventListener('click', login);
+    
+    // إنشاء حساب
+    document.getElementById('register-btn').addEventListener('click', register);
+    
+    // تسجيل الخروج
+    document.getElementById('logout-btn').addEventListener('click', logout);
+    
+    // التبديل بين نماذج التسجيل والدخول
+    document.getElementById('show-register').addEventListener('click', function(e) {
+        e.preventDefault();
+        hideModal('login-modal');
+        showModal('register-modal');
+    });
+    
+    document.getElementById('show-login').addEventListener('click', function(e) {
+        e.preventDefault();
+        hideModal('register-modal');
+        showModal('login-modal');
+    });
+}
+
+// دوال مساعدة لإدارة النماذج
+function showModal(modalId) {
+    document.getElementById(modalId).style.display = 'flex';
+    document.getElementById(modalId).setAttribute('aria-hidden', 'false');
+}
+
+function hideModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+    document.getElementById(modalId).setAttribute('aria-hidden', 'true');
 }
 
 
@@ -1237,19 +1242,32 @@ document.addEventListener('DOMContentLoaded', initAuth);
         }
     }
 
-    // تهيئة التطبيق عند تحميل الصفحة
-    document.addEventListener('DOMContentLoaded', function() {
-        initAuth();
-        initData();
-        initEvents();
-        initDarkMode();
+       // دالة لحفظ البيانات في Firebase
+function saveDataToFirebase(userId, data) {
+    return db.collection('users').doc(userId).set({
+        haccpData: data,
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+}
 
-        setTimeout(() => {
-            initCharts();
-        }, 500);
+// تهيئة التطبيق عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    initApp();
+});
 
-        initExportFunctions();
-    });
+function initApp() {
+    initAuth();
+    initData();
+    initEvents();
+    initDarkMode();
+    initCRUDEvents();
+
+    setTimeout(() => {
+        initCharts();
+    }, 500);
+
+    initExportFunctions();
+}
 
     // دالة لتهيئة البيانات
     function initData() {
@@ -1274,32 +1292,29 @@ document.addEventListener('DOMContentLoaded', initAuth);
         }
     }
     
-    // دالة لتهيئة الأحداث
-    function initEvents() {
-        // تبديل الألسن
-        document.querySelectorAll('.tab-btn').forEach(button => {
-            button.addEventListener('click', () => {
-                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-                
-                button.classList.add('active');
-                const tabId = button.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-            });
+   // دالة لتهيئة الأحداث
+function initEvents() {
+    // تبديل الألسن
+    document.querySelectorAll('.tab-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            button.classList.add('active');
+            const tabId = button.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
         });
-        
-        // تبديل اللغة
-        document.getElementById('language-toggle').addEventListener('click', toggleLanguage);
-        
-        // تبديل الوضع الليلي
-        document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
-        
-        // التعامل مع حذف العناصر
-        document.addEventListener('click', handleDeleteActions);
-        
-        // تعيين التاريخ الحالي كقيمة افتراضية في حقول التاريخ
-        setDefaultDates();
-    }
+    });
+    
+    // تبديل اللغة
+    document.getElementById('language-toggle').addEventListener('click', toggleLanguage);
+    
+    // تبديل الوضع الليلي
+    document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+    
+    // تعيين التاريخ الحالي كقيمة افتراضية في حقول التاريخ
+    setDefaultDates();
+}
     
     // دالة لتحميل البيانات
     function loadData() {
@@ -1473,48 +1488,220 @@ document.addEventListener('DOMContentLoaded', initAuth);
         });
     }
     
-    // دالة للتعامل مع حذف العناصر
-    function handleDeleteActions(e) {
-        if (e.target.classList.contains('action-btn') && e.target.classList.contains('btn-danger')) {
+    // دالة لتهيئة أحداث الإضافة والحذف لجميع الجداول والعناصر
+function initCRUDEvents() {
+    // أحداث إضافة سجلات جديدة للثلاجات
+    const addFridgeButton = document.querySelector('#records .btn-primary');
+    if (addFridgeButton) {
+        addFridgeButton.addEventListener('click', addNewFridgeRecord);
+    }
+    
+    // حدث إضافة صف جديد للثلاجات
+    const addRowButton = document.querySelector('.add-row-btn');
+    if (addRowButton) {
+        addRowButton.addEventListener('click', addNewFridgeRecord);
+    }
+    
+    // أحداث إضافة نقاط التحكم الحرجة
+    const addCCPButton = document.querySelector('#ccps .btn-primary');
+    if (addCCPButton) {
+        addCCPButton.addEventListener('click', addNewCCPRecord);
+    }
+    
+    // أحداث إضافة أعضاء الفريق
+    const addTeamButton = document.querySelector('#team .btn-primary');
+    if (addTeamButton) {
+        addTeamButton.addEventListener('click', showAddTeamMemberForm);
+    }
+    
+    // أحداث إضافة المتطلبات الأساسية
+    const addPRPButton = document.querySelector('#prps .btn-primary');
+    if (addPRPButton) {
+        addPRPButton.addEventListener('click', addNewPRPRecord);
+    }
+    
+    // أحداث الحذف للعناصر
+    document.addEventListener('click', function(e) {
+        // التعامل مع حذف صف من الجداول
+        if (e.target.closest('.action-btn.btn-danger')) {
             const row = e.target.closest('tr');
             if (row) {
-                Swal.fire({
-                    title: 'هل أنت متأكد؟',
-                    text: "لن تتمكن من التراجع عن هذا الإجراء!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'نعم، احذفه!',
-                    cancelButtonText: 'إلغاء'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        row.remove();
-                        showNotification('تم الحذف', 'تم حذف العنصر بنجاح', 'success');
-                    }
-                });
+                deleteTableRow(row);
             }
         }
         
-        if (e.target.classList.contains('btn-danger') && e.target.closest('.team-member')) {
+        // التعامل مع حذف عضو الفريق
+        if (e.target.closest('.btn-danger') && e.target.closest('.team-member')) {
             const member = e.target.closest('.team-member');
-            Swal.fire({
-                title: 'هل أنت متأكد؟',
-                text: "لن تتمكن من التراجع عن هذا الإجراء!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'نعم، احذفه!',
-                cancelButtonText: 'إلغاء'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    member.remove();
-                    showNotification('تم الحذف', 'تم حذف العضو بنجاح', 'success');
-                }
-            });
+            deleteTeamMember(member);
         }
+    });
+}
+
+// دالة إضافة سجل ثلاجة جديد
+function addNewFridgeRecord() {
+    const newRecord = {
+        date: new Date().toISOString().split('T')[0],
+        time: new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
+        location: 'موقع جديد',
+        temp: '0°م',
+        responsible: 'مسؤول جديد',
+        notes: 'ملاحظات جديدة'
+    };
+    
+    const table = document.getElementById('fridge-records-table');
+    if (table) {
+        // استخدام الدالة الموجودة لإضافة الصف للـ DOM
+        addFridgeRecordToDOM(newRecord, table);
+
+        // حفظ البيانات بعد الإضافة
+        const data = getDataFromLocalStorage();
+        data.fridgeRecords = data.fridgeRecords || [];
+        data.fridgeRecords.push(newRecord);
+        localStorage.setItem('haccpData', JSON.stringify(data));
+
+        saveData(); // حفظ في Firebase إذا كان المستخدم مسجلاً
+        showNotification('تم الإضافة', 'تم إضافة سجل جديد بنجاح', 'success');
     }
+}
+
+
+// دالة إضافة نقطة تحكم حرجة جديدة
+function addNewCCPRecord() {
+    const newRecord = {
+        step: 'خطوة جديدة',
+        monitoring: 'نقطة مراقبة جديدة',
+        limit: 'حد حرج جديد',
+        action: 'إجراء تصحيحي جديد'
+    };
+    
+    const table = document.getElementById('ccp-table');
+    if (table) {
+        const newRow = table.insertRow(-1);
+        newRow.innerHTML = `
+            <td contenteditable="true">${newRecord.step}</td>
+            <td contenteditable="true">${newRecord.monitoring}</td>
+            <td contenteditable="true">${newRecord.limit}</td>
+            <td contenteditable="true">${newRecord.action}</td>
+            <td>
+                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
+                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+            </td>
+        `;
+        
+        saveData();
+        showNotification('تم الإضافة', 'تم إضافة نقطة تحكم حرجة جديدة', 'success');
+    }
+}
+
+// دالة إضافة متطلب أساسي جديد
+function addNewPRPRecord() {
+    showNotification('ميزة قيد التطوير', 'سيتم إضافة هذه الميزة قريباً', 'info');
+}
+
+// دالة لعرض نموذج إضافة عضو فريق
+function showAddTeamMemberForm() {
+    Swal.fire({
+        title: 'إضافة عضو جديد',
+        html: `
+            <input id="swal-name" class="swal2-input" placeholder="الاسم">
+            <input id="swal-role" class="swal2-input" placeholder="الدور">
+            <input id="swal-email" class="swal2-input" placeholder="البريد الإلكتروني">
+            <input id="swal-phone" class="swal2-input" placeholder="الهاتف">
+            <textarea id="swal-responsibilities" class="swal2-textarea" placeholder="المسؤوليات"></textarea>
+        `,
+        focusConfirm: false,
+        showCancelButton: true,
+        confirmButtonText: 'إضافة',
+        cancelButtonText: 'إلغاء',
+        preConfirm: () => {
+            return {
+                name: document.getElementById('swal-name').value,
+                role: document.getElementById('swal-role').value,
+                email: document.getElementById('swal-email').value,
+                phone: document.getElementById('swal-phone').value,
+                responsibilities: document.getElementById('swal-responsibilities').value
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            addNewTeamMember(result.value);
+        }
+    });
+}
+
+// دالة إضافة عضو فريق جديد (عرض فقط، لا تحفظ تلقائياً)
+function addNewTeamMember(memberData) {
+    const teamGrid = document.getElementById('team-members');
+    if (teamGrid) {
+        const memberHTML = `
+            <div class="team-member">
+                <div class="avatar"><i class="fas fa-user"></i></div>
+                <h4>${sanitizeHTML(memberData.name)}</h4>
+                <div class="role">${sanitizeHTML(memberData.role)}</div>
+                <div class="email">${sanitizeHTML(memberData.email)}</div>
+                <div class="phone">${sanitizeHTML(memberData.phone)}</div>
+                <p>${sanitizeHTML(memberData.responsibilities)}</p>
+                <div class="actions">
+                    <button class="btn btn-warning"><i class="fas fa-edit"></i> تعديل</button>
+                    <button class="btn btn-danger"><i class="fas fa-trash"></i> حذف</button>
+                </div>
+            </div>
+        `;
+        teamGrid.insertAdjacentHTML('beforeend', memberHTML);
+
+        // 🔹 تحديث localStorage وFirebase مباشرة
+        const data = getDataFromLocalStorage();
+        data.teamMembers = data.teamMembers || [];
+        data.teamMembers.push(memberData);
+        localStorage.setItem('haccpData', JSON.stringify(data));
+        saveData();
+
+        showNotification('تم الإضافة', 'تم إضافة عضو جديد بنجاح', 'success');
+    }
+}
+
+
+
+
+// دالة حذف عضو الفريق
+function deleteTeamMember(member) {
+    Swal.fire({
+        title: 'هل أنت متأكد؟',
+        text: "لن تتمكن من التراجع عن هذا الإجراء!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'نعم، احذفه!',
+        cancelButtonText: 'إلغاء'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            member.remove();
+            saveData();
+            showNotification('تم الحذف', 'تم حذف العضو بنجاح', 'success');
+        }
+    });
+}
+
+// دالة لحفظ البيانات
+function saveData() {
+    const user = auth.currentUser;
+    if (user) {
+        const data = getDataFromLocalStorage();
+        // حفظ البيانات في Firebase
+        saveDataToFirebase(user.uid, data)
+            .then(() => {
+                console.log('Data saved to Firebase');
+            })
+            .catch(error => {
+                showNotification('خطأ', 'فشل في حفظ البيانات: ' + error.message, 'error');
+            });
+    } else {
+        // حفظ محلي إذا لم يكن المستخدم مسجلاً
+        console.log('تم حفظ البيانات محلياً');
+    }
+}
     
     // دالة للحصول على البيانات من التخزين المحلي
     function getDataFromLocalStorage() {
@@ -1530,34 +1717,36 @@ document.addEventListener('DOMContentLoaded', initAuth);
     }
     
     // دالة لتطبيق البيانات على الواجهة
-    function renderData(data) {
-        // تطبيق بيانات سجلات الثلاجات
-        if (data.fridgeRecords && data.fridgeRecords.length > 0) {
-            const table = document.getElementById('fridge-records-table');
-            if (table) {
-                // مسح الصفوف القديمة (باستثناء رأس الجدول)
-                while (table.rows.length > 1) {
-                    table.deleteRow(1);
-                }
-                
-                // إضافة الصفوف الجديدة
-                data.fridgeRecords.forEach(record => {
-                    const newRow = table.insertRow(-1);
-                    newRow.innerHTML = `
-                        <td>${sanitizeHTML(record.date)}</td>
-                        <td>${sanitizeHTML(record.time)}</td>
-                        <td>${sanitizeHTML(record.location)}</td>
-                        <td>${sanitizeHTML(record.temp)}</td>
-                        <td>${sanitizeHTML(record.responsible)}</td>
-                        <td>${sanitizeHTML(record.notes)}</td>
-                        <td>
-                            <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                            <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
-                        </td>
-                    `;
-                });
-            }
-        }
+function renderData(data) {
+    const table = document.getElementById('fridge-records-table');
+    if (!table) return;
+
+    // مسح الصفوف القديمة (باستثناء رأس الجدول)
+    while (table.rows.length > 1) {
+        table.deleteRow(1);
+    }
+
+    // إضافة الصفوف الجديدة
+    data.fridgeRecords?.forEach(record => addFridgeRecordToDOM(record, table));
+}
+
+// دالة لإضافة صف واحد للجدول
+function addFridgeRecordToDOM(record, table) {
+    const newRow = table.insertRow(-1);
+    newRow.innerHTML = `
+        <td>${sanitizeHTML(record.date)}</td>
+        <td>${sanitizeHTML(record.time)}</td>
+        <td>${sanitizeHTML(record.location)}</td>
+        <td>${sanitizeHTML(record.temp)}</td>
+        <td>${sanitizeHTML(record.responsible)}</td>
+        <td>${sanitizeHTML(record.notes)}</td>
+        <td>
+            <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
+            <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+        </td>
+    `;
+}
+
         
         // تطبيق بيانات فريق الهاسب
         if (data.teamMembers && data.teamMembers.length > 0) {
@@ -1666,38 +1855,81 @@ document.addEventListener('DOMContentLoaded', initAuth);
         document.getElementById('export-excel').addEventListener('click', exportToExcel);
     }
     
-    // دالة لتصدير إلى PDF
-    function exportToPDF() {
-        const recordType = document.getElementById('record-type').value;
-        showNotification('جاري التصدير', 'جاري تحضير ملف PDF...', 'info');
-        
-        // محاكاة عملية التصدير
-        setTimeout(() => {
-            showNotification('تم التصدير', `تم تصدير ${recordType} إلى PDF بنجاح`, 'success');
-        }, 1500);
-    }
     
-    // دالة لتصدير إلى Word
-    function exportToWord() {
-        const recordType = document.getElementById('record-type').value;
-        showNotification('جاري التصدير', 'جاري تحضير ملف Word...', 'info');
-        
-        // محاكاة عملية التصدير
-        setTimeout(() => {
-            showNotification('تم التصدير', `تم تصدير ${recordType} إلى Word بنجاح`, 'success');
-        }, 1500);
+// pdf تصدير 
+function exportToPDF() {
+    const recordType = document.getElementById('record-type').value;
+    const data = getDataForExport(recordType); // دالة تقوم بجلب البيانات المطلوبة
+    
+    if (data.length === 0) {
+        showNotification('تحذير', 'لا توجد بيانات للتصدير', 'warning');
+        return;
     }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.text(`تقرير ${getRecordTypeName(recordType)}`, 105, 15, { align: 'center' });
+
+    // تجهيز الأعمدة والبيانات
+    const columns = Object.keys(data[0]).map(key => ({ header: key, dataKey: key }));
+
+    doc.autoTable({
+        head: [columns.map(col => col.header)],
+        body: data.map(row => Object.values(row)),
+        startY: 25,
+        theme: 'grid',
+        styles: { fontSize: 10 }
+    });
+
+    doc.save(`haccp_${recordType}_report.pdf`);
+    showNotification('تم التصدير', `تم تصدير ${getRecordTypeName(recordType)} إلى PDF بنجاح`, 'success');
+}
+
+    
     
     // دالة لتصدير إلى Excel
-    function exportToExcel() {
-        const recordType = document.getElementById('record-type').value;
-        showNotification('جاري التصدير', 'جاري تحضير ملف Excel...', 'info');
-        
-        // محاكاة عملية التصدير
-        setTimeout(() => {
-            showNotification('تم التصدير', `تم تصدير ${recordType} إلى Excel بنجاح`, 'success');
-        }, 1500);
+   function exportToExcel() {
+    const recordType = document.getElementById('record-type').value;
+    const data = getDataForExport(recordType); // جلب البيانات المطلوبة
+
+    if (data.length === 0) {
+        showNotification('تحذير', 'لا توجد بيانات للتصدير', 'warning');
+        return;
     }
+
+    // تحويل البيانات إلى ورقة عمل
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, recordType);
+
+    // حفظ الملف
+    XLSX.writeFile(workbook, `haccp_${recordType}_report.xlsx`);
+    showNotification('تم التصدير', `تم تصدير ${recordType} إلى Excel بنجاح`, 'success');
+}
+
+
+// دالة حذف صف من الجدول
+function deleteTableRow(row) {
+    Swal.fire({
+        title: 'هل أنت متأكد؟',
+        text: "لن تتمكن من التراجع عن هذا الإجراء!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'نعم، احذفه!',
+        cancelButtonText: 'إلغاء'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            row.remove();
+            saveData();
+            showNotification('تم الحذف', 'تم حذف العنصر بنجاح', 'success');
+        }
+    });
+}
+
+    
 </script>
 </body>
 </html>
