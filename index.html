@@ -1120,43 +1120,6 @@ function showLogin(e) {
     showModal('login-modal');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    initAuth();
-
-    // ربط أحداث الأزرار بعد تحميل الصفحة
-    document.getElementById('login-btn').addEventListener('click', login);
-    document.getElementById('register-btn').addEventListener('click', register);
-    document.getElementById('logout-btn').addEventListener('click', logout);
-    document.getElementById('show-register').addEventListener('click', showRegister);
-    document.getElementById('show-login').addEventListener('click', showLogin);
-});
-
-
-// ربط أحداث المصادقة
-function bindAuthEvents() {
-    // تسجيل الدخول
-    document.getElementById('login-btn').addEventListener('click', login);
-    
-    // إنشاء حساب
-    document.getElementById('register-btn').addEventListener('click', register);
-    
-    // تسجيل الخروج
-    document.getElementById('logout-btn').addEventListener('click', logout);
-    
-    // التبديل بين نماذج التسجيل والدخول
-    document.getElementById('show-register').addEventListener('click', function(e) {
-        e.preventDefault();
-        hideModal('login-modal');
-        showModal('register-modal');
-    });
-    
-    document.getElementById('show-login').addEventListener('click', function(e) {
-        e.preventDefault();
-        hideModal('register-modal');
-        showModal('login-modal');
-    });
-}
-
 // دوال مساعدة لإدارة النماذج
 function showModal(modalId) {
     document.getElementById(modalId).style.display = 'flex';
@@ -1219,8 +1182,6 @@ function logout() {
         });
 }
 
-// تفعيل عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', initAuth);
     // استرجاع البيانات من Firebase
     function loadUserData(userId) {
         showLoader();
@@ -1272,10 +1233,6 @@ function saveDataToFirebase(userId, data) {
 }
 
 // تهيئة التطبيق عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', function() {
-    initApp();
-});
-
 function initApp() {
     initAuth();
     initData();
@@ -1949,6 +1906,16 @@ function deleteTableRow(row) {
         }
     });
 }
+document.addEventListener('DOMContentLoaded', () => {
+    initApp();
+
+    // ربط أحداث الأزرار الخاصة بالمصادقة
+    document.getElementById('login-btn')?.addEventListener('click', login);
+    document.getElementById('register-btn')?.addEventListener('click', register);
+    document.getElementById('logout-btn')?.addEventListener('click', logout);
+    document.getElementById('show-register')?.addEventListener('click', showRegister);
+    document.getElementById('show-login')?.addEventListener('click', showLogin);
+});
 
     
 </script>
