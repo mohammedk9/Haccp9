@@ -11,55 +11,109 @@
                connect-src 'self' https://firestore.googleapis.com https://*.firebaseio.com https://*.googleapis.com;">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الهاسب (HACCP) المتكامل - محسّن</title>
+    <meta name="description" content="نظام HACCP">
+    <meta http-equiv="Cache-Control" content="max-age=31536000">
+    <title>نظام الهاسب (HACCP) المتكامل</title>
+    
+    <!-- Preload resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap">
+    <link rel="preload" as="style" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-    <style>
-       :root {
-            --primary-color: #1a5f7a;
-            --secondary-color: #2c3e50;
-            --accent-color: #3498db;
-            --success-color: #27ae60;
-            --warning-color: #e67e22;
-            --danger-color: #e74c3c;
-            --light-bg: #f0f5ff;
-            --dark-bg: #1a1a2e;
-            --text-light: #2c3e50;
-            --text-dark: #f0f0f0;
-            --card-light: #ffffff;
-            --card-dark: #2c3e50;
-            --transition: all 0.3s ease;
-        }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+   
 
+</head>
+   
+    <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s ease;
         }
-
+        
         body {
-            background: linear-gradient(135deg, var(--light-bg), #e6f0ff);
-            color: var(--text-light);
+            background: linear-gradient(135deg, #f0f5ff, #e6f0ff);
+            color: #2c3e50;
             line-height: 1.7;
             min-height: 100vh;
             padding-bottom: 50px;
-            transition: var(--transition);
         }
-
+        
         body.dark-mode {
-            background: linear-gradient(135deg, var(--dark-bg), #16213e);
-            color: var(--text-dark);
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #f0f0f0;
         }
-
+        
+        body.dark-mode .card {
+            background-color: #2c3e50;
+            color: #f0f0f0;
+            border-color: #34495e;
+        }
+        
+        body.dark-mode table {
+            background-color: #2c3e50;
+            color: #f0f0f0;
+        }
+        
+        body.dark-mode th {
+            background: linear-gradient(to bottom, #2980b9, #1a5f7a);
+        }
+        
+        body.dark-mode tr:nth-child(even) {
+            background-color: #34495e;
+        }
+        
+        body.dark-mode tr:hover {
+            background-color: #4a6572;
+        }
+        
+        body.dark-mode .section-title {
+            color: #f0f0f0;
+        }
+        
+        body.dark-mode .form-group label {
+            color: #f0f0f0;
+        }
+        
+        body.dark-mode .form-group input, 
+        body.dark-mode .form-group select, 
+        body.dark-mode .form-group textarea {
+            background-color: #34495e;
+            color: #f0f0f0;
+            border-color: #4a6572;
+        }
+        
+        body.dark-mode .record-form,
+        body.dark-mode .team-form {
+            background-color: #34495e;
+            border-color: #4a6572;
+        }
+        
+        body.dark-mode .dashboard-card {
+            background-color: #2c3e50;
+            color: #f0f0f0;
+        }
+        
+        body.dark-mode .dashboard-card h3 {
+            color: #f0f0f0;
+        }
+        
         .container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
-
+        
         header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background: linear-gradient(135deg, #1a5f7a, #2c3e50);
             color: white;
             padding: 25px 0;
             text-align: center;
@@ -69,7 +123,7 @@
             position: relative;
             overflow: hidden;
         }
-
+        
         header::before {
             content: "";
             position: absolute;
@@ -81,29 +135,30 @@
             background-size: cover;
             pointer-events: none;
         }
-
+        
         header h1 {
             font-size: 2.6rem;
             margin-bottom: 15px;
             text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
         }
-
+        
         header p {
             font-size: 1.2rem;
             max-width: 800px;
             margin: 0 auto;
             opacity: 0.9;
         }
-
-        .controls {
+        
+        .language-toggle {
             position: absolute;
             top: 20px;
             left: 20px;
-            display: flex;
-            gap: 15px;
         }
-
-        .dark-mode-toggle, .language-toggle {
+        
+        .dark-mode-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
             background: rgba(255, 255, 255, 0.2);
             color: white;
             border: none;
@@ -114,14 +169,8 @@
             align-items: center;
             gap: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: var(--transition);
         }
-
-        .dark-mode-toggle:hover, .language-toggle:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-
+        
         .tabs {
             display: flex;
             justify-content: center;
@@ -129,9 +178,9 @@
             flex-wrap: wrap;
             gap: 12px;
         }
-
+        
         .tab-btn {
-            background: linear-gradient(to right, var(--accent-color), #2980b9);
+            background: linear-gradient(to right, #3498db, #2980b9);
             color: white;
             border: none;
             padding: 15px 30px;
@@ -139,40 +188,40 @@
             font-weight: 600;
             cursor: pointer;
             border-radius: 50px;
-            transition: var(--transition);
+            transition: all 0.4s ease;
             display: flex;
             align-items: center;
             gap: 12px;
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
         }
-
+        
         .tab-btn:hover {
             transform: translateY(-4px);
             box-shadow: 0 8px 18px rgba(52, 152, 219, 0.5);
         }
-
+        
         .tab-btn.active {
-            background: linear-gradient(to right, var(--danger-color), #c0392b);
+            background: linear-gradient(to right, #e74c3c, #c0392b);
             box-shadow: 0 8px 18px rgba(231, 76, 60, 0.5);
         }
-
+        
         .tab-content {
             display: none;
             animation: fadeIn 0.6s;
         }
-
+        
         .tab-content.active {
             display: block;
         }
-
+        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
+        
         .section-title {
-            color: var(--text-light);
-            border-bottom: 3px solid var(--accent-color);
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
             padding-bottom: 15px;
             margin-bottom: 30px;
             display: flex;
@@ -181,11 +230,7 @@
             font-size: 1.9rem;
             position: relative;
         }
-
-        body.dark-mode .section-title {
-            color: var(--text-dark);
-        }
-
+        
         .section-title::after {
             content: "";
             position: absolute;
@@ -193,31 +238,25 @@
             right: 0;
             width: 150px;
             height: 4px;
-            background: linear-gradient(to right, var(--accent-color), transparent);
+            background: linear-gradient(to right, #3498db, transparent);
             border-radius: 3px;
         }
-
+        
         .card {
-            background-color: var(--card-light);
+            background-color: white;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
             padding: 30px;
             margin-bottom: 35px;
-            transition: var(--transition);
+            transition: all 0.4s ease;
             border: 1px solid #e0e6f0;
         }
-
-        body.dark-mode .card {
-            background-color: var(--card-dark);
-            color: var(--text-dark);
-            border-color: #34495e;
-        }
-
+        
         .card:hover {
             transform: translateY(-8px);
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.18);
         }
-
+        
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -226,25 +265,21 @@
             flex-wrap: wrap;
             gap: 15px;
         }
-
+        
         .card-header h3 {
             font-size: 1.6rem;
-            color: var(--text-light);
+            color: #2c3e50;
             display: flex;
             align-items: center;
             gap: 12px;
         }
-
-        body.dark-mode .card-header h3 {
-            color: var(--text-dark);
-        }
-
+        
         .card-controls {
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
         }
-
+        
         .btn {
             padding: 12px 25px;
             border: none;
@@ -255,99 +290,105 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            transition: var(--transition);
+            transition: all 0.3s;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
-
+        
         .btn-primary {
-            background: linear-gradient(to right, var(--success-color), #219653);
+            background: linear-gradient(to right, #27ae60, #219653);
             color: white;
         }
-
+        
         .btn-secondary {
-            background: linear-gradient(to right, var(--accent-color), #2980b9);
+            background: linear-gradient(to right, #3498db, #2980b9);
             color: white;
         }
-
+        
         .btn-warning {
-            background: linear-gradient(to right, var(--warning-color), #d35400);
+            background: linear-gradient(to right, #e67e22, #d35400);
             color: white;
         }
-
+        
         .btn-danger {
-            background: linear-gradient(to right, var(--danger-color), #c0392b);
+            background: linear-gradient(to right, #e74c3c, #c0392b);
             color: white;
         }
-
+        
         .btn-info {
             background: linear-gradient(to right, #9b59b6, #8e44ad);
             color: white;
         }
-
+        
         .btn-pdf {
-            background: linear-gradient(to right, var(--danger-color), #c0392b);
+            background: linear-gradient(to right, #e74c3c, #c0392b);
             color: white;
         }
-
+        
         .btn-word {
             background: linear-gradient(to right, #1a73e8, #0d5bc5);
             color: white;
         }
-
+        
         .btn-excel {
             background: linear-gradient(to right, #21a366, #107c41);
             color: white;
         }
-
+        
+        .btn-copy {
+            background: linear-gradient(to right, #3498db, #2980b9);
+            color: white;
+        }
+        
         .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
-
+        
         table {
             width: 100%;
             border-collapse: collapse;
             margin: 25px 0;
-            background-color: var(--card-light);
+            background-color: white;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
         }
-
-        body.dark-mode table {
-            background-color: var(--card-dark);
-            color: var(--text-dark);
-        }
-
+        
         th, td {
             padding: 18px;
             text-align: right;
             border-bottom: 1px solid #eef2f7;
         }
-
+        
         th {
-            background: linear-gradient(to bottom, var(--accent-color), #2980b9);
+            background: linear-gradient(to bottom, #3498db, #2980b9);
             color: white;
             font-weight: 700;
             font-size: 1.1rem;
         }
-
+        
         tr:nth-child(even) {
             background-color: #f8fafc;
         }
-
-        body.dark-mode tr:nth-child(even) {
-            background-color: #34495e;
-        }
-
+        
         tr:hover {
             background-color: #e3f2fd;
         }
-
-        body.dark-mode tr:hover {
-            background-color: #4a6572;
+        
+        .editable-cell {
+            border: 2px dashed #3498db;
+            border-radius: 5px;
+            padding: 8px;
+            min-height: 40px;
+            background: #f8fafc;
         }
-
+        
+        .editable-cell:focus {
+            outline: none;
+            border: 2px solid #3498db;
+            background: white;
+        }
+        
         .action-btn {
             padding: 8px 12px;
             border-radius: 5px;
@@ -355,9 +396,9 @@
             cursor: pointer;
             margin: 0 3px;
         }
-
+        
         .add-row-btn {
-            background: linear-gradient(to right, var(--success-color), #27ae60);
+            background: linear-gradient(to right, #2ecc71, #27ae60);
             color: white;
             padding: 12px 20px;
             margin-top: 15px;
@@ -365,78 +406,94 @@
             align-items: center;
             gap: 8px;
         }
-
+        
         .download-options {
             display: flex;
             gap: 15px;
             margin-top: 20px;
             flex-wrap: wrap;
         }
-
+        
+        .sfda-banner {
+            background: linear-gradient(135deg, #1a5f7a, #2c3e50);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 35px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sfda-banner::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+            background-size: cover;
+            pointer-events: none;
+        }
+        
+        .sfda-banner h3 {
+            font-size: 1.9rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .sfda-banner p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 25px;
+        }
+        
         .record-form {
             background: #f8fafc;
             padding: 25px;
             border-radius: 12px;
             margin: 25px 0;
-            border: 2px dashed var(--accent-color);
+            border: 2px dashed #3498db;
         }
-
-        body.dark-mode .record-form {
-            background-color: #34495e;
-            border-color: #4a6572;
-        }
-
+        
         .form-group {
             margin-bottom: 20px;
         }
-
+        
         .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--text-light);
+            color: #2c3e50;
         }
-
-        body.dark-mode .form-group label {
-            color: var(--text-dark);
-        }
-
+        
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 14px;
             border: 2px solid #dce4ec;
             border-radius: 8px;
             font-size: 1rem;
-            transition: var(--transition);
-            background-color: white;
-            color: var(--text-light);
+            transition: border-color 0.3s;
         }
-
-        body.dark-mode .form-group input, 
-        body.dark-mode .form-group select, 
-        body.dark-mode .form-group textarea {
-            background-color: #34495e;
-            color: var(--text-dark);
-            border-color: #4a6572;
-        }
-
+        
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
             outline: none;
-            border-color: var(--accent-color);
+            border-color: #3498db;
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
-
+        
         .form-row {
             display: flex;
             gap: 20px;
             margin-bottom: 20px;
         }
-
+        
         .form-row .form-group {
             flex: 1;
             margin-bottom: 0;
         }
-
+        
         /* Dashboard Styles */
         .dashboard-grid {
             display: grid;
@@ -444,9 +501,9 @@
             gap: 25px;
             margin-bottom: 30px;
         }
-
+        
         .dashboard-card {
-            background: var(--card-light);
+            background: white;
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -455,79 +512,62 @@
             flex-direction: column;
             align-items: center;
         }
-
-        body.dark-mode .dashboard-card {
-            background-color: var(--card-dark);
-            color: var(--text-dark);
-        }
-
+        
         .dashboard-card h3 {
             font-size: 1.4rem;
-            color: var(--text-light);
+            color: #2c3e50;
             margin-bottom: 15px;
         }
-
-        body.dark-mode .dashboard-card h3 {
-            color: var(--text-dark);
-        }
-
+        
         .dashboard-card .value {
             font-size: 2.5rem;
             font-weight: 700;
             margin: 15px 0;
         }
-
+        
         .dashboard-card .trend {
             display: flex;
             align-items: center;
             gap: 5px;
-            color: var(--success-color);
+            color: #27ae60;
             font-weight: 600;
         }
-
+        
         .dashboard-card .trend.down {
-            color: var(--danger-color);
+            color: #e74c3c;
         }
-
+        
         .dashboard-chart {
-            background: var(--card-light);
+            background: white;
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             height: 400px;
             margin-bottom: 30px;
         }
-
-        body.dark-mode .dashboard-chart {
-            background-color: var(--card-dark);
-        }
-
+        
         /* HACCP Team */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
         }
-
+        
         .team-member {
-            background: var(--card-light);
+            background: white;
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             text-align: center;
-            border-top: 4px solid var(--accent-color);
+            border-top: 4px solid #3498db;
             position: relative;
         }
-
-        body.dark-mode .team-member {
-            background-color: var(--card-dark);
-        }
-
+        
         .team-member .avatar {
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            background: var(--accent-color);
+            background: #3498db;
             margin: 0 auto 20px;
             display: flex;
             align-items: center;
@@ -535,59 +575,54 @@
             color: white;
             font-size: 2.5rem;
         }
-
+        
         .team-member h4 {
             font-size: 1.3rem;
             margin-bottom: 10px;
         }
-
+        
         .team-member .role {
-            color: var(--accent-color);
+            color: #3498db;
             font-weight: 600;
             margin-bottom: 15px;
         }
-
+        
         .team-member .email {
             color: #7f8c8d;
             margin-bottom: 15px;
         }
-
+        
         .team-member .actions {
             display: flex;
             justify-content: center;
             gap: 10px;
         }
-
+        
         .team-form {
             background: #f8fafc;
             padding: 25px;
             border-radius: 12px;
             margin: 25px 0;
-            border: 2px dashed var(--accent-color);
+            border: 2px dashed #3498db;
         }
-
-        body.dark-mode .team-form {
-            background-color: #34495e;
-            border-color: #4a6572;
-        }
-
+        
         /* Loader */
         .loader {
             display: none;
             border: 5px solid #f3f3f3;
             border-radius: 50%;
-            border-top: 5px solid var(--accent-color);
+            border-top: 5px solid #3498db;
             width: 50px;
             height: 50px;
             animation: spin 1s linear infinite;
             margin: 20px auto;
         }
-
+        
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
+        
         /* Risk indicators */
         .risk-indicator {
             display: inline-block;
@@ -596,75 +631,48 @@
             border-radius: 50%;
             margin-left: 5px;
         }
-
+        
         .risk-low {
-            background-color: var(--success-color);
+            background-color: #27ae60;
         }
-
+        
         .risk-medium {
-            background-color: var(--warning-color);
+            background-color: #f39c12;
         }
-
+        
         .risk-high {
-            background-color: var(--danger-color);
+            background-color: #e74c3c;
         }
-
-        /* Login Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
+        
+        /* Skeleton loading */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            min-height: 20px;
         }
-
-        .modal-content {
-            background: var(--card-light);
-            width: 90%;
-            max-width: 400px;
-            padding: 30px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        
+        .skeleton-circle {
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
         }
-
-        body.dark-mode .modal-content {
-            background-color: var(--card-dark);
+        
+        .skeleton-text {
+            height: 12px;
+            margin-bottom: 8px;
         }
-
-        .modal h2 {
-            margin-bottom: 20px;
-            color: var(--primary-color);
+        
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
         }
-
-        /* Badges */
-        .badge {
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .badge.completed {
-            background-color: var(--success-color);
-            color: white;
-        }
-
-        .badge.in-progress {
-            background-color: var(--warning-color);
-            color: white;
-        }
-
-        .badge.pending {
-            background-color: var(--accent-color);
-            color: white;
-        }
-
+        
         @media (max-width: 768px) {
             .tab-btn {
                 padding: 12px 20px;
@@ -684,16 +692,8 @@
                 flex-direction: column;
                 gap: 15px;
             }
-            
-            .controls {
-                position: relative;
-                top: 0;
-                left: 0;
-                justify-content: center;
-                margin-bottom: 15px;
-            }
         }
-
+        
         @media (max-width: 480px) {
             .tabs {
                 flex-direction: column;
@@ -722,22 +722,37 @@
     </style>
 </head>
 <body>
-    <!-- شعار النظام -->
-    <div class="logo-container" style="text-align: center; margin: 20px 0;">
-        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iIzFhNWY3YSIgLz4KICA8cGF0aCBkPSJNMzAgNDBMNDAgNTBMNzAgMjBNNTAgMjVWNzVNNDAgNjBINjAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNCIgLz4KPC9zdmc+" alt="شعار الهاسب" style="height: 80px; margin-bottom: 10px;">
-        <h1 style="color: var(--primary-color); margin: 0;">نظام الهاسب (HACCP) المتكامل</h1>
-        <p style="color: var(--secondary-color);">برنامج إدارة سلامة الغذاء في المملكة العربية السعودية</p>
-    </div>
+    <header>
+        <div class="container">
+            <button class="dark-mode-toggle" id="dark-mode-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div class="language-toggle">
+                <button id="language-toggle" class="btn btn-primary">
+                    <i class="fas fa-globe"></i> <span data-translate="language">English</span>
+                </button>
+            </div>
+             <!-- معلومات المستخدم -->
+        <div id="user-info" style="display:none; position:absolute; left:20px; top:20px; color:white;">
+            <span id="user-name"></span>
+            <button id="logout-btn" class="btn btn-danger" style="margin-left:10px; padding:5px 10px;">
+                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+            </button>
+        </div>
+            <h1><i class="fas fa-utensils"></i> <span data-translate="title">نظام الهاسب (HACCP) المتكامل</span></h1>
+            <p data-translate="description">برنامج إدارة سلامة الغذاء في المملكة العربية السعودية</p>
+        </div>
+    </header>
     
     <div class="container">
         <div class="tabs">
-            <button class="tab-btn active" data-tab="dashboard"><i class="fas fa-chart-bar"></i> لوحة التحكم</button>
-            <button class="tab-btn" data-tab="prps"><i class="fas fa-list-check"></i> المتطلبات الأساسية</button>
-            <button class="tab-btn" data-tab="ccps"><i class="fas fa-barcode"></i> نقاط التحكم الحرجة</button>
-            <button class="tab-btn" data-tab="records"><i class="fas fa-clipboard-list"></i> السجلات اليومية</button>
-            <button class="tab-btn" data-tab="verification"><i class="fas fa-clipboard-check"></i> المراجعة والتحقق</button>
-            <button class="tab-btn" data-tab="team"><i class="fas fa-users"></i> فريق الهاسب</button>
-            <button class="tab-btn" data-tab="export"><i class="fas fa-download"></i> تصدير السجلات</button>
+            <button class="tab-btn active" data-tab="dashboard"><i class="fas fa-chart-bar"></i> <span data-translate="dashboard">لوحة التحكم</span></button>
+            <button class="tab-btn" data-tab="prps"><i class="fas fa-list-check"></i> <span data-translate="prps">المتطلبات الأساسية</span></button>
+            <button class="tab-btn" data-tab="ccps"><i class="fas fa-barcode"></i> <span data-translate="ccps">نقاط التحكم الحرجة</span></button>
+            <button class="tab-btn" data-tab="records"><i class="fas fa-clipboard-list"></i> <span data-translate="records">السجلات اليومية</span></button>
+            <button class="tab-btn" data-tab="verification"><i class="fas fa-clipboard-check"></i> <span data-translate="verification">المراجعة والتحقق</span></button>
+            <button class="tab-btn" data-tab="team"><i class="fas fa-users"></i> <span data-translate="team">فريق الهاسب</span></button>
+            <button class="tab-btn" data-tab="export"><i class="fas fa-download"></i> <span data-translate="export">تصدير السجلات</span></button>
         </div>
         
         <!-- Loader -->
@@ -745,59 +760,59 @@
         
         <!-- لوحة التحكم -->
         <div id="dashboard" class="tab-content active">
-            <h2 class="section-title"><i class="fas fa-chart-bar"></i> لوحة التحكم</h2>
+            <h2 class="section-title"><i class="fas fa-chart-bar"></i> <span data-translate="dashboard">لوحة التحكم</span></h2>
             
             <div class="dashboard-grid">
                 <div class="dashboard-card">
-                    <h3><i class="fas fa-temperature-low"></i> حالات الثلاجات</h3>
+                    <h3><i class="fas fa-temperature-low"></i> <span data-translate="fridgeStatus">حالات الثلاجات</span></h3>
                     <div class="value">4/5</div>
-                    <div class="trend"><i class="fas fa-arrow-up"></i> 95% مطابقة</div>
-                    <p>5 ثلاجات، حالة واحدة تحتاج متابعة</p>
+                    <div class="trend"><i class="fas fa-arrow-up"></i> 95% <span data-translate="compliance">مطابقة</span></div>
+                    <p>5 <span data-translate="fridges">ثلاجات</span>، <span data-translate="oneNeedsFollowup">حالة واحدة تحتاج متابعة</span></p>
                 </div>
                 
                 <div class="dashboard-card">
-                    <h3><i class="fas fa-clipboard-check"></i> السجلات المكتملة</h3>
+                    <h3><i class="fas fa-clipboard-check"></i> <span data-translate="completedRecords">السجلات المكتملة</span></h3>
                     <div class="value">98%</div>
-                    <div class="trend"><i class="fas fa-check-circle"></i> ممتاز</div>
-                    <p>230 سجل من أصل 235 مكتمل</p>
+                    <div class="trend"><i class="fas fa-check-circle"></i> <span data-translate="excellent">ممتاز</span></div>
+                    <p>230 <span data-translate="recordOutOf">سجل من أصل</span> 235 <span data-translate="completed">مكتمل</span></p>
                 </div>
                 
                 <div class="dashboard-card">
-                    <h3><i class="fas fa-exclamation-triangle"></i> حالات غير مطابقة</h3>
+                    <h3><i class="fas fa-exclamation-triangle"></i> <span data-translate="nonConformities">حالات غير مطابقة</span></h3>
                     <div class="value">12</div>
-                    <div class="trend down"><i class="fas fa-arrow-down"></i> تحسنت بنسبة 15%</div>
-                    <p>7 حالات تم معالجتها، 5 حالات تحت المعالجة</p>
+                    <div class="trend down"><i class="fas fa-arrow-down"></i> <span data-translate="improvedBy">تحسنت بنسبة</span> 15%</div>
+                    <p>7 <span data-translate="casesResolved">حالات تم معالجتها</span>، 5 <span data-translate="casesInProgress">حالات تحت المعالجة</span></p>
                 </div>
                 
                 <div class="dashboard-card">
-                    <h3><i class="fas fa-user-graduate"></i> التدريب</h3>
+                    <h3><i class="fas fa-user-graduate"></i> <span data-translate="training">التدريب</span></h3>
                     <div class="value">85%</div>
-                    <div class="trend"><i class="fas fa-arrow-up"></i> تحسنت بنسبة 10%</div>
-                    <p>25 موظف، 3 بحاجة لتدريب جديد</p>
+                    <div class="trend"><i class="fas fa-arrow-up"></i> <span data-translate="improvedBy">تحسنت بنسبة</span> 10%</div>
+                    <p>25 <span data-translate="employees">موظف</span>، 3 <span data-translate="needTraining">بحاجة لتدريب جديد</span></p>
                 </div>
             </div>
             
             <div class="dashboard-chart">
-                <h3 class="section-title"><i class="fas fa-chart-line"></i> حالات نقاط التحكم الحرجة خلال الشهر</h3>
+                <h3 class="section-title"><i class="fas fa-chart-line"></i> <span data-translate="ccpStatus">حالات نقاط التحكم الحرجة خلال الشهر</span></h3>
                 <canvas id="ccp-chart"></canvas>
             </div>
             
             <div class="dashboard-grid">
                 <div class="dashboard-card">
-                    <h3><i class="fas fa-calendar-check"></i> المراجعات القادمة</h3>
+                    <h3><i class="fas fa-calendar-check"></i> <span data-translate="upcomingReviews">المراجعات القادمة</span></h3>
                     <ul>
-                        <li>معايرة أجهزة - غداً <span class="risk-indicator risk-high"></span></li>
-                        <li>مراجعة شهريّة - بعد 5 أيام <span class="risk-indicator risk-medium"></span></li>
-                        <li>تدريب جديد - بعد أسبوع <span class="risk-indicator risk-low"></span></li>
+                        <li><span data-translate="calibration">معايرة أجهزة</span> - <span data-translate="tomorrow">غداً</span> <span class="risk-indicator risk-high"></span></li>
+                        <li><span data-translate="monthlyReview">مراجعة شهريّة</span> - <span data-translate="after5Days">بعد 5 أيام</span> <span class="risk-indicator risk-medium"></span></li>
+                        <li><span data-translate="newTraining">تدريب جديد</span> - <span data-translate="afterWeek">بعد أسبوع</span> <span class="risk-indicator risk-low"></span></li>
                     </ul>
                 </div>
                 
                 <div class="dashboard-card">
-                    <h3><i class="fas fa-tasks"></i> المهام العاجلة</h3>
+                    <h3><i class="fas fa-tasks"></i> <span data-translate="urgentTasks">المهام العاجلة</span></h3>
                     <ul>
-                        <li>فحص مصائد الآفات <span class="risk-indicator risk-high"></span></li>
-                        <li>تسليم تقرير الهيئة <span class="risk-indicator risk-medium"></span></li>
-                        <li>تجديد شهادة الموردين <span class="risk-indicator risk-low"></span></li>
+                        <li><span data-translate="pestInspection">فحص مصائد الآفات</span> <span class="risk-indicator risk-high"></span></li>
+                        <li><span data-translate="reportSubmission">تسليم تقرير الهيئة</span> <span class="risk-indicator risk-medium"></span></li>
+                        <li><span data-translate="supplierRenewal">تجديد شهادة الموردين</span> <span class="risk-indicator risk-low"></span></li>
                     </ul>
                 </div>
             </div>
@@ -805,68 +820,28 @@
         
         <!-- تبويب المتطلبات الأساسية -->
         <div id="prps" class="tab-content">
-            <h2 class="section-title"><i class="fas fa-list-check"></i> المتطلبات الأساسية</h2>
+            <h2 class="section-title"><i class="fas fa-list-check"></i> <span data-translate="prps">المتطلبات الأساسية</span></h2>
             <div class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-building"></i> المتطلبات الأساسية لسلامة الغذاء</h3>
                     <div class="card-controls">
-                        <button class="btn btn-primary" id="add-prp"><i class="fas fa-plus"></i> إضافة متطلب</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> إضافة متطلب</button>
                     </div>
                 </div>
-                
-                <table id="prp-table">
-                    <thead>
-                        <tr>
-                            <th>نوع المتطلب</th>
-                            <th>الوصف</th>
-                            <th>مسؤول التنفيذ</th>
-                            <th>تاريخ البدء</th>
-                            <th>تاريخ الانتهاء</th>
-                            <th>الحالة</th>
-                            <th>الإجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>نظافة وتطهير</td>
-                            <td>تنظيف وتعقيم جميع الأسطح الملامسة للغذاء</td>
-                            <td>أحمد محمد</td>
-                            <td>2025-10-01</td>
-                            <td>2025-10-05</td>
-                            <td><span class="badge completed">مكتمل</span></td>
-                            <td>
-                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>تدريب العاملين</td>
-                            <td>تدريب العاملين على مبادئ النظافة الشخصية</td>
-                            <td>سارة عبدالله</td>
-                            <td>2025-10-10</td>
-                            <td>2025-10-12</td>
-                            <td><span class="badge in-progress">قيد التنفيذ</span></td>
-                            <td>
-                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <p>هنا سيتم عرض المتطلبات الأساسية لسلامة الغذاء حسب معايير الهيئة العامة للغذاء والدواء السعودية.</p>
             </div>
         </div>
         
         <!-- تبويب نقاط التحكم الحرجة -->
         <div id="ccps" class="tab-content">
-            <h2 class="section-title"><i class="fas fa-barcode"></i> نقاط التحكم الحرجة</h2>
+            <h2 class="section-title"><i class="fas fa-barcode"></i> <span data-translate="ccps">نقاط التحكم الحرجة</span></h2>
             <div class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-temperature-high"></i> مراقبة نقاط التحكم الحرجة</h3>
                     <div class="card-controls">
-                        <button class="btn btn-primary" id="add-ccp"><i class="fas fa-plus"></i> إضافة نقطة تحكم</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> إضافة نقطة تحكم</button>
                     </div>
                 </div>
-                
                 <table id="ccp-table">
                     <thead>
                         <tr>
@@ -874,7 +849,6 @@
                             <th>نقطة المراقبة</th>
                             <th>الحدود الحرجة</th>
                             <th>الإجراء التصحيحي</th>
-                            <th>مسؤول المراقبة</th>
                             <th>الإجراءات</th>
                         </tr>
                     </thead>
@@ -884,10 +858,9 @@
                             <td>درجة الحرارة</td>
                             <td>≤5°م</td>
                             <td>نقل إلى ثلاجة احتياطية</td>
-                            <td>محمد أحمد</td>
                             <td>
-                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -895,10 +868,19 @@
                             <td>درجة الحرارة الداخلية</td>
                             <td>≥75°م</td>
                             <td>زيادة وقت الطهي</td>
-                            <td>خالد حسن</td>
                             <td>
-                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>تبريد الأطعمة</td>
+                            <td>زمن التبريد</td>
+                            <td>≤90 دقيقة</td>
+                            <td>تعديل طريقة التبريد</td>
+                            <td>
+                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -908,15 +890,14 @@
         
         <!-- تبويب السجلات اليومية -->
         <div id="records" class="tab-content">
-            <h2 class="section-title"><i class="fas fa-clipboard-list"></i> السجلات اليومية</h2>
+            <h2 class="section-title"><i class="fas fa-clipboard-list"></i> <span data-translate="records">السجلات اليومية</span></h2>
             <div class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-temperature-low"></i> سجلات درجة حرارة الثلاجات</h3>
                     <div class="card-controls">
-                        <button class="btn btn-primary" id="add-fridge-record"><i class="fas fa-plus"></i> إضافة سجل</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> إضافة سجل</button>
                     </div>
                 </div>
-                
                 <table id="fridge-records-table">
                     <thead>
                         <tr>
@@ -938,91 +919,37 @@
                             <td>محمد أحمد</td>
                             <td>درجة حرارة طبيعية</td>
                             <td>
-                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2025-10-25</td>
-                            <td>12:00</td>
-                            <td>ثلاجة الخضروات</td>
-                            <td>5.2°م</td>
-                            <td>سارة عبدالله</td>
-                            <td>درجة حرارة ضمن المعدل الطبيعي</td>
-                            <td>
-                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
+                <button class="add-row-btn"><i class="fas fa-plus"></i> إضافة صف جديد</button>
             </div>
         </div>
         
         <!-- تبويب المراجعة والتحقق -->
         <div id="verification" class="tab-content">
-            <h2 class="section-title"><i class="fas fa-clipboard-check"></i> المراجعة والتحقق</h2>
+            <h2 class="section-title"><i class="fas fa-clipboard-check"></i> <span data-translate="verification">المراجعة والتحقق</span></h2>
             <div class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-check-double"></i> عمليات المراجعة والتحقق</h3>
-                    <div class="card-controls">
-                        <button class="btn btn-primary" id="add-verification"><i class="fas fa-plus"></i> إضافة مراجعة</button>
-                    </div>
                 </div>
-                
-                <table id="verification-table">
-                    <thead>
-                        <tr>
-                            <th>نوع المراجعة</th>
-                            <th>الوصف</th>
-                            <th>تاريخ المراجعة</th>
-                            <th>المسؤول</th>
-                            <th>النتيجة</th>
-                            <th>ملاحظات</th>
-                            <th>الإجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>معايرة الأجهزة</td>
-                            <td>معايرة أجهزة قياس درجة الحرارة</td>
-                            <td>2025-10-20</td>
-                            <td>أحمد محمد</td>
-                            <td><span class="badge completed">مطابق</span></td>
-                            <td>جميع الأجهزة تعمل بشكل صحيح</td>
-                            <td>
-                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>تدقيق داخلي</td>
-                            <td>مراجعة سجلات النظافة اليومية</td>
-                            <td>2023-10-15</td>
-                            <td>سارة عبدالله</td>
-                            <td><span class="badge in-progress">需要 إجراء</span></td>
-                            <td>يوجد تقصير في تسجيل بعض البيانات</td>
-                            <td>
-                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <p>هنا سيتم عرض سجلات المراجعة والتحقق الدورية لنظام الهاسب.</p>
             </div>
         </div>
         
         <!-- تبويب فريق الهاسب -->
         <div id="team" class="tab-content">
-            <h2 class="section-title"><i class="fas fa-users"></i> فريق الهاسب</h2>
+            <h2 class="section-title"><i class="fas fa-users"></i> <span data-translate="team">فريق الهاسب</span></h2>
             <div class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-user-friends"></i> أعضاء فريق الهاسب</h3>
                     <div class="card-controls">
-                        <button class="btn btn-primary" id="add-member"><i class="fas fa-plus"></i> إضافة عضو</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> إضافة عضو</button>
                     </div>
                 </div>
-                
                 <div class="team-grid" id="team-members">
                     <div class="team-member">
                         <div class="avatar">
@@ -1034,8 +961,8 @@
                         <div class="phone">+966</div>
                         <p>مسؤول عن متابعة تطبيق نظام الهاسب ومراجعة السجلات</p>
                         <div class="actions">
-                            <button class="btn btn-warning edit-btn"><i class="fas fa-edit"></i> تعديل</button>
-                            <button class="btn btn-danger delete-btn"><i class="fas fa-trash"></i> حذف</button>
+                            <button class="btn btn-warning"><i class="fas fa-edit"></i> <span data-translate="edit">تعديل</span></button>
+                            <button class="btn btn-danger"><i class="fas fa-trash"></i> <span data-translate="delete">حذف</span></button>
                         </div>
                     </div>
                     <div class="team-member">
@@ -1048,8 +975,22 @@
                         <div class="phone">+966</div>
                         <p>مسؤولة عن تدريب الموظفين ومتابعة تنفيذ الإجراءات التصحيحية</p>
                         <div class="actions">
-                            <button class="btn btn-warning edit-btn"><i class="fas fa-edit"></i> تعديل</button>
-                            <button class="btn btn-danger delete-btn"><i class="fas fa-trash"></i> حذف</button>
+                            <button class="btn btn-warning"><i class="fas fa-edit"></i> <span data-translate="edit">تعديل</span></button>
+                            <button class="btn btn-danger"><i class="fas fa-trash"></i> <span data-translate="delete">حذف</span></button>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h4>خالد حسن</h4>
+                        <div class="role">مراقب الجودة</div>
+                        <div class="email">khaled@example.com</div>
+                        <div class="phone">+966</div>
+                        <p>مسؤول عن مراقبة نقاط التحكم الحرجة وجمع البيانات</p>
+                        <div class="actions">
+                            <button class="btn btn-warning"><i class="fas fa-edit"></i> <span data-translate="edit">تعديل</span></button>
+                            <button class="btn btn-danger"><i class="fas fa-trash"></i> <span data-translate="delete">حذف</span></button>
                         </div>
                     </div>
                 </div>
@@ -1058,7 +999,7 @@
         
         <!-- تبويب تصدير السجلات -->
         <div id="export" class="tab-content">
-            <h2 class="section-title"><i class="fas fa-download"></i> تصدير السجلات</h2>
+            <h2 class="section-title"><i class="fas fa-download"></i> <span data-translate="export">تصدير السجلات</span></h2>
             <div class="card">
                 <div class="card-header">
                     <h3><i class="fas fa-file-export"></i> تصدير سجلات الهاسب</h3>
@@ -1070,7 +1011,6 @@
                         <option value="ccp">نقاط التحكم الحرجة</option>
                         <option value="prp">المتطلبات الأساسية</option>
                         <option value="verification">سجلات المراجعة</option>
-                        <option value="team">فريق الهاسب</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -1093,317 +1033,680 @@
         </div>
         
     </div>
-
     <!-- نافذة تسجيل الدخول -->
-    <div class="modal" id="login-modal">
-        <div class="modal-content">
-            <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
-            <div class="form-group">
-                <input type="email" id="login-email" class="form-control" placeholder="البريد الإلكتروني">
-            </div>
-            <div class="form-group">
-                <input type="password" id="login-password" class="form-control" placeholder="كلمة المرور">
-            </div>
-            <button class="btn btn-primary" id="login-btn" style="width: 100%;">تسجيل الدخول</button>
-            <p style="margin-top: 15px;">ليس لديك حساب؟ <a href="#" id="show-register">إنشاء حساب</a></p>
+<div id="login-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
+    <div style="background:white; width:90%; max-width:400px; margin:100px auto; padding:30px; border-radius:10px; text-align:center;">
+        <h2>تسجيل الدخول</h2>
+        <div class="form-group">
+            <input type="email" id="login-email" placeholder="البريد الإلكتروني" class="form-control">
         </div>
-    </div>
-
-    <!-- نافذة إنشاء حساب -->
-    <div class="modal" id="register-modal">
-        <div class="modal-content">
-            <h2><i class="fas fa-user-plus"></i> إنشاء حساب جديد</h2>
-            <div class="form-group">
-                <input type="text" id="register-name" class="form-control" placeholder="الاسم الكامل">
-            </div>
-            <div class="form-group">
-                <input type="email" id="register-email" class="form-control" placeholder="البريد الإلكتروني">
-            </div>
-            <div class="form-group">
-                <input type="password" id="register-password" class="form-control" placeholder="كلمة المرور">
-            </div>
-            <button class="btn btn-primary" id="register-btn" style="width: 100%;">إنشاء حساب</button>
-            <p style="margin-top: 15px;">لديك حساب بالفعل؟ <a href="#" id="show-login">تسجيل الدخول</a></p>
+        <div class="form-group">
+            <input type="password" id="login-password" placeholder="كلمة المرور" class="form-control">
         </div>
+        <button class="btn btn-primary" id="login-btn" style="width:100%;">تسجيل الدخول</button>
+        <p style="margin-top:15px;">ليس لديك حساب؟ <a href="#" id="show-register">إنشاء حساب</a></p>
     </div>
+</div>
 
-    <script>
-        // عناصر التحكم الرئيسية
-        const darkModeToggle = document.createElement('button');
-        darkModeToggle.className = 'dark-mode-toggle';
-        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> وضع الليلي';
-        darkModeToggle.id = 'dark-mode-toggle';
+<!-- نافذة إنشاء حساب -->
+<div id="register-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
+    <div style="background:white; width:90%; max-width:400px; margin:100px auto; padding:30px; border-radius:10px; text-align:center;">
+        <h2>إنشاء حساب جديد</h2>
+        <div class="form-group">
+            <input type="text" id="register-name" placeholder="الاسم الكامل" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="email" id="register-email" placeholder="البريد الإلكتروني" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="password" id="register-password" placeholder="كلمة المرور" class="form-control">
+        </div>
+        <button class="btn btn-primary" id="register-btn" style="width:100%;">إنشاء حساب</button>
+        <p style="margin-top:15px;">لديك حساب بالفعل؟ <a href="#" id="show-login">تسجيل الدخول</a></p>
+    </div>
+</div>
 
-        const languageToggle = document.createElement('button');
-        languageToggle.className = 'language-toggle';
-        languageToggle.innerHTML = '<i class="fas fa-globe"></i> English';
-        languageToggle.id = 'language-toggle';
 
-        const controlsContainer = document.createElement('div');
-        controlsContainer.className = 'controls';
-        controlsContainer.appendChild(darkModeToggle);
-        controlsContainer.appendChild(languageToggle);
+  <!-- Scripts -->
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+   <script>
+const firebaseConfig = {
+    apiKey: "AIzaSyDAyUO3yaoJHc5QlWtDscNBbxjdMMKUWeo",
+    authDomain: "haccp9-c1da9.firebaseapp.com",
+    projectId: "haccp9-c1da9",
+    storageBucket: "haccp9-c1da9.appspot.com",
+    messagingSenderId: "1023766402500",
+    appId: "1:1023766402500:web:a6862663bcb131840f0091",
+    measurementId: "G-8WYC7DCDJC"
+};
 
-        document.querySelector('header .container').prepend(controlsContainer);
+// تهيئة Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();      
 
-        const tabButtons = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-        const loader = document.getElementById('main-loader');
-
-        // تهيئة التطبيق
-        function initApp() {
-            // تحميل التفضيلات
-            loadPreferences();
-            
-            // إعداد مستمعي الأحداث
-            setupEventListeners();
-            
-            // عرض نافذة تسجيل الدخول
-            showLoginModal();
-        }
-
-        // تحميل التفضيلات
-        function loadPreferences() {
-            // تحميل وضع الظلام
-            const darkMode = localStorage.getItem('darkMode') === 'true';
-            if (darkMode) {
-                document.body.classList.add('dark-mode');
-                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> وضع النهاري';
-            }
-            
-            // تحميل اللغة
-            const language = localStorage.getItem('language') || 'ar';
-            if (language === 'en') {
-                languageToggle.innerHTML = '<i class="fas fa-globe"></i> العربية';
-            }
-        }
-
-        // إعداد مستمعي الأحداث
-        function setupEventListeners() {
-            // تبديل وضع الظلام
-            darkModeToggle.addEventListener('click', toggleDarkMode);
-            
-            // تبديل اللغة
-            languageToggle.addEventListener('click', toggleLanguage);
-            
-            // تبديل التبويبات
-            tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const tabId = button.getAttribute('data-tab');
-                    switchTab(tabId);
-                });
-            });
-            
-            // أحداث الحذف
-            document.querySelectorAll('.delete-btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const item = this.closest('tr') || this.closest('.team-member');
-                    if (item) {
-                        showDeleteConfirmation(item);
-                    }
-                });
-            });
-            
-            // أحداث التسجيل والدخول
-            document.getElementById('login-btn').addEventListener('click', login);
-            document.getElementById('register-btn').addEventListener('click', register);
-            document.getElementById('show-register').addEventListener('click', showRegisterModal);
-            document.getElementById('show-login').addEventListener('click', showLoginModal);
-            
-            // أحداث التصدير
-            document.getElementById('export-pdf').addEventListener('click', exportToPDF);
-            document.getElementById('export-word').addEventListener('click', exportToWord);
-            document.getElementById('export-excel').addEventListener('click', exportToExcel);
-        }
-
-        // تبديل وضع الظلام
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const isDarkMode = document.body.classList.contains('dark-mode');
-            
-            if (isDarkMode) {
-                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i> وضع النهاري';
-            } else {
-                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> وضع الليلي';
-            }
-            
-            localStorage.setItem('darkMode', isDarkMode);
-            showNotification('تم التغيير', isDarkMode ? 'تم تفعيل الوضع الليلي' : 'تم تفعيل الوضع النهاري', 'success');
-        }
-
-        // تبديل اللغة
-        function toggleLanguage() {
-            const currentLang = document.documentElement.lang;
-            const newLang = currentLang === 'ar' ? 'en' : 'ar';
-            
-            document.documentElement.lang = newLang;
-            
-            if (newLang === 'en') {
-                languageToggle.innerHTML = '<i class="fas fa-globe"></i> العربية';
-                // هنا يمكنك إضافة ترجمة للواجهة
-            } else {
-                languageToggle.innerHTML = '<i class="fas fa-globe"></i> English';
-                // إعادة الواجهة للعربية
-            }
-            
-            localStorage.setItem('language', newLang);
-            showNotification('تم التغيير', `تم تغيير اللغة إلى ${newLang === 'ar' ? 'العربية' : 'English'}`, 'success');
-        }
-
-        // تبديل التبويبات
-        function switchTab(tabId) {
-            tabButtons.forEach(button => button.classList.remove('active'));
-            tabContents.forEach(content => content.classList.remove('active'));
-            
-            document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
-            document.getElementById(tabId).classList.add('active');
-        }
-
-        // عرض نافذة تأكيد الحذف
-        function showDeleteConfirmation(item) {
-            if (confirm('هل أنت متأكد من أنك تريد حذف هذا العنصر؟')) {
-                item.remove();
-                showNotification('تم الحذف', 'تم حذف العنصر بنجاح', 'success');
-            }
-        }
-
-        // تسجيل الدخول
-        function login() {
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
-            
-            if (!email || !password) {
-                showNotification('خطأ', 'يرجى ملء جميع الحقول', 'error');
-                return;
-            }
-            
-            // محاكاة عملية تسجيل الدخول
-            showLoader();
-            setTimeout(() => {
-                hideLoader();
-                hideLoginModal();
-                showNotification('تم تسجيل الدخول', 'مرحباً بعودتك!', 'success');
-            }, 1500);
-        }
-
-        // إنشاء حساب
-        function register() {
-            const name = document.getElementById('register-name').value;
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            
-            if (!name || !email || !password) {
-                showNotification('خطأ', 'يرجى ملء جميع الحقول', 'error');
-                return;
-            }
-            
-            // محاكاة عملية إنشاء الحساب
-            showLoader();
-            setTimeout(() => {
-                hideLoader();
-                hideRegisterModal();
-                showNotification('تم إنشاء الحساب', 'تم إنشاء حسابك بنجاح!', 'success');
-            }, 1500);
-        }
-
-        // عرض نافذة تسجيل الدخول
-        function showLoginModal() {
+// تهيئة المصادقة
+function initAuth() {
+    // الاستماع لتغير حالة المستخدم
+    auth.onAuthStateChanged(user => {
+        console.log('Auth state changed', user);
+        if (user) {
+            document.getElementById('login-modal').style.display = 'none';
+            document.getElementById('register-modal').style.display = 'none';
+            document.getElementById('user-info').style.display = 'flex';
+            document.getElementById('user-name').textContent = user.displayName || user.email;
+        } else {
             document.getElementById('login-modal').style.display = 'flex';
             document.getElementById('register-modal').style.display = 'none';
+            document.getElementById('user-info').style.display = 'none';
         }
+    });
 
-        // إخفاء نافذة تسجيل الدخول
-        function hideLoginModal() {
-            document.getElementById('login-modal').style.display = 'none';
-        }
-
-        // عرض نافذة إنشاء حساب
-        function showRegisterModal() {
-            document.getElementById('register-modal').style.display = 'flex';
-            document.getElementById('login-modal').style.display = 'none';
-        }
-
-        // إخفاء نافذة إنشاء حساب
-        function hideRegisterModal() {
-            document.getElementById('register-modal').style.display = 'none';
-        }
-
-        // تصدير إلى PDF
-        function exportToPDF() {
-            showLoader();
-            setTimeout(() => {
-                hideLoader();
-                showNotification('تم التصدير', 'تم تصدير الملف بنجاح', 'success');
-            }, 1500);
-        }
-
-        // تصدير إلى Word
-        function exportToWord() {
-            showLoader();
-            setTimeout(() => {
-                hideLoader();
-                showNotification('تم التصدير', 'تم تصدير الملف بنجاح', 'success');
-            }, 1500);
-        }
-
-        // تصدير إلى Excel
-        function exportToExcel() {
-            showLoader();
-            setTimeout(() => {
-                hideLoader();
-                showNotification('تم التصدير', 'تم تصدير الملف بنجاح', 'success');
-            }, 1500);
-        }
-
-        // عرض الإشعارات
-        function showNotification(title, message, type) {
-            // إنشاء عنصر الإشعار
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            notification.innerHTML = `
-                <h4>${title}</h4>
-                <p>${message}</p>
-            `;
+    // ربط أحداث الأزرار بعد التأكد من وجودها (الحل)
+    setTimeout(() => {
+        try {
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const showRegisterBtn = document.getElementById('show-register');
+            const showLoginBtn = document.getElementById('show-login');
             
-            // إضافة الأنماط
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'};
-                color: white;
-                padding: 15px 20px;
-                border-radius: 8px;
-                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-                z-index: 10000;
-                max-width: 300px;
-                animation: fadeIn 0.5s, fadeOut 0.5s 2.5s forwards;
-            `;
+            if (loginBtn) loginBtn.addEventListener('click', login);
+            else console.error('Login button not found');
             
-            // إضافة للإشعار للصفحة
-            document.body.appendChild(notification);
+            if (registerBtn) registerBtn.addEventListener('click', register);
+            else console.error('Register button not found');
             
-            // إزالة الإشعار بعد 3 ثوان
-            setTimeout(() => {
-                if (document.body.contains(notification)) {
-                    document.body.removeChild(notification);
+            if (logoutBtn) logoutBtn.addEventListener('click', logout);
+            else console.error('Logout button not found');
+            
+            if (showRegisterBtn) {
+                showRegisterBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.getElementById('login-modal').style.display = 'none';
+                    document.getElementById('register-modal').style.display = 'flex';
+                });
+            }
+            
+            if (showLoginBtn) {
+                showLoginBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.getElementById('register-modal').style.display = 'none';
+                    document.getElementById('login-modal').style.display = 'flex';
+                });
+            }
+        } catch (error) {
+            console.error('Error binding auth events:', error);
+        }
+    }, 300);
+}
+
+
+// تسجيل الدخول
+function login() {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    console.log('Login attempt', email, password);
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            console.log('Login success', userCredential.user);
+            showNotification('تم تسجيل الدخول', 'مرحباً بعودتك!', 'success');
+        })
+        .catch(error => {
+            console.error('Login error', error);
+            showNotification('خطأ', error.message, 'error');
+        });
+}
+
+// إنشاء حساب
+function register() {
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    console.log('Register attempt', email, name);
+
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            return userCredential.user.updateProfile({ displayName: name });
+        })
+        .then(() => {
+            console.log('Register success');
+            showNotification('تم إنشاء الحساب', 'تم إنشاء حسابك بنجاح!', 'success');
+        })
+        .catch(error => {
+            console.error('Register error', error);
+            showNotification('خطأ', error.message, 'error');
+        });
+}
+
+// تسجيل الخروج
+function logout() {
+    auth.signOut()
+        .then(() => {
+            console.log('Logout success');
+            showNotification('تم تسجيل الخروج', 'إلى اللقاء!', 'success');
+        })
+        .catch(error => {
+            console.error('Logout error', error);
+        });
+}
+
+// تفعيل عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', initAuth);
+    // استرجاع البيانات من Firebase
+    function loadUserData(userId) {
+        showLoader();
+        
+        db.collection('users').doc(userId).get()
+            .then(doc => {
+                if (doc.exists) {
+                    const data = doc.data().haccpData;
+                    localStorage.setItem('haccpData', JSON.stringify(data));
+                    renderData(data);
+                } else {
+                    // إذا لم يكن هناك بيانات، ننشئ بيانات افتراضية
+                    initData();
+                    const defaultData = getDataFromLocalStorage();
+                    saveDataToFirebase(userId, defaultData)
+                        .then(() => {
+                            renderData(defaultData);
+                        });
                 }
-            }, 3000);
-        }
+                hideLoader();
+            })
+            .catch(error => {
+                showNotification('خطأ', 'فشل في تحميل البيانات: ' + error.message, 'error');
+                hideLoader();
+            });
+    }
 
-        // عرض مؤشر التحميل
-        function showLoader() {
-            loader.style.display = 'block';
+    // تحديث البيانات في Firebase
+    function updateDataInFirebase() {
+        const user = auth.currentUser;
+        if (user) {
+            const data = getDataFromLocalStorage();
+            saveDataToFirebase(user.uid, data)
+                .then(() => {
+                    console.log('Data saved to Firebase');
+                })
+                .catch(error => {
+                    showNotification('خطأ', 'فشل في حفظ البيانات: ' + error.message, 'error');
+                });
         }
+    }
 
-        // إخفاء مؤشر التحميل
-        function hideLoader() {
-            loader.style.display = 'none';
+    // تهيئة التطبيق عند تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+        initAuth();
+        initData();
+        initEvents();
+        initDarkMode();
+
+        setTimeout(() => {
+            initCharts();
+        }, 500);
+
+        initExportFunctions();
+    });
+
+    // دالة لتهيئة البيانات
+    function initData() {
+        // جلب البيانات من التخزين المحلي أو استخدام القيم الافتراضية
+        if (!localStorage.getItem('haccpData')) {
+            const defaultData = {
+                fridgeRecords: [
+                    { date: '2025-10-25', time: '08:00', location: 'ثلاجة اللحوم', temp: '4.5°م', responsible: 'محمد أحمد', notes: 'درجة حرارة طبيعية' }
+                ],
+                ccpRecords: [
+                    { step: 'تخزين اللحوم', monitoring: 'درجة الحرارة', limit: '≤5°م', action: 'نقل إلى ثلاجة احتياطية' },
+                    { step: 'طبخ اللحوم', monitoring: 'درجة الحرارة الداخلية', limit: '≥75°م', action: 'زيادة وقت الطهي' },
+                    { step: 'تبريد الأطعمة', monitoring: 'زمن التبريد', limit: '≤90 دقيقة', action: 'تعديل طريقة التبريد' }
+                ],
+                teamMembers: [
+                    { name: 'أحمد محمد', role: 'مدير الجودة', email: 'ahmed@example.com', phone: '+966500000000', responsibilities: 'مسؤول عن متابعة تطبيق نظام الهاسب ومراجعة السجلات' },
+                    { name: 'سارة عبدالله', role: 'منسق الهاسب', email: 'sara@example.com', phone: '+966511111111', responsibilities: 'مسؤولة عن تدريب الموظفين ومتابعة تنفيذ الإجراءات التصحيحية' },
+                    { name: 'خالد حسن', role: 'مراقب الجودة', email: 'khaled@example.com', phone: '+966522222222', responsibilities: 'مسؤول عن مراقبة نقاط التحكم الحرجة وجمع البيانات' }
+                ]
+            };
+            localStorage.setItem('haccpData', JSON.stringify(defaultData));
         }
-
-        // تهيئة التطبيق عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', initApp);
-    </script>
+    }
+    
+    // دالة لتهيئة الأحداث
+    function initEvents() {
+        // تبديل الألسن
+        document.querySelectorAll('.tab-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                
+                button.classList.add('active');
+                const tabId = button.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // تبديل اللغة
+        document.getElementById('language-toggle').addEventListener('click', toggleLanguage);
+        
+        // تبديل الوضع الليلي
+        document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+        
+        // التعامل مع حذف العناصر
+        document.addEventListener('click', handleDeleteActions);
+        
+        // تعيين التاريخ الحالي كقيمة افتراضية في حقول التاريخ
+        setDefaultDates();
+    }
+    
+    // دالة لتحميل البيانات
+    function loadData() {
+        showLoader();
+        
+        // محاكاة وقت التحميل
+        setTimeout(() => {
+            const data = getDataFromLocalStorage();
+            // تطبيق البيانات على الواجهة
+            renderData(data);
+            hideLoader();
+        }, 1000);
+    }
+    
+    // دالة لعرض مؤشر التحميل
+    function showLoader() {
+        document.getElementById('main-loader').style.display = 'block';
+    }
+    
+    // دالة لإخفاء مؤشر التحميل
+    function hideLoader() {
+        document.getElementById('main-loader').style.display = 'none';
+    }
+    
+    // دالة لتبديل اللغة
+    function toggleLanguage() {
+        const currentLang = document.documentElement.lang;
+        const newLang = currentLang === 'ar' ? 'en' : 'ar';
+        
+        // تحديث سمة اللغة
+        document.documentElement.lang = newLang;
+        
+        // تحديث نص زر تبديل اللغة
+        updateLanguage(newLang);
+        
+        // حفظ تفضيل اللغة
+        localStorage.setItem('language', newLang);
+        
+        // عرض الإشعار
+        showNotification('تم التغيير', `تم تغيير اللغة إلى ${newLang === 'ar' ? 'العربية' : 'English'}`, 'success');
+    }
+    
+    // دالة لتحديث اللغة في الواجهة
+    function updateLanguage(lang) {
+        const translations = {
+            ar: {
+                language: 'English',
+                title: 'نظام الهاسب (HACCP) المتكامل',
+                description: 'برنامج إدارة سلامة الغذاء لمطاعم الشاورما والبرجر والبيتزا والمخابز وفق متطلبات المملكة العربية السعودية',
+                dashboard: 'لوحة التحكم',
+                prps: 'المتطلبات الأساسية',
+                ccps: 'نقاط التحكم الحرجة',
+                records: 'السجلات اليومية',
+                verification: 'المراجعة والتحقق',
+                team: 'فريق الهاسب',
+                export: 'تصدير السجلات',
+                fridgeStatus: 'حالات الثلاجات',
+                compliance: 'مطابقة',
+                fridges: 'ثلاجات',
+                oneNeedsFollowup: 'حالة واحدة تحتاج متابعة',
+                completedRecords: 'السجلات المكتملة',
+                excellent: 'ممتاز',
+                recordOutOf: 'سجل من أصل',
+                completed: 'مكتمل',
+                nonConformities: 'حالات غير مطابقة',
+                improvedBy: 'تحسنت بنسبة',
+                casesResolved: 'حالات تم معالجتها',
+                casesInProgress: 'حالات تحت المعالجة',
+                training: 'التدريب',
+                employees: 'موظف',
+                needTraining: 'بحاجة لتدريب جديد',
+                ccpStatus: 'حالات نقاط التحكم الحرجة خلال الشهر',
+                upcomingReviews: 'المراجعات القادمة',
+                calibration: 'معايرة أجهزة',
+                tomorrow: 'غداً',
+                monthlyReview: 'مراجعة شهريّة',
+                after5Days: 'بعد 5 أيام',
+                newTraining: 'تدريب جديد',
+                afterWeek: 'بعد أسبوع',
+                urgentTasks: 'المهام العاجلة',
+                pestInspection: 'فحص مصائد الآفات',
+                reportSubmission: 'تسليم تقرير الهيئة',
+                supplierRenewal: 'تجديد شهادة الموردين',
+                edit: 'تعديل',
+                delete: 'حذف',
+                exportExcel: 'تصدير Excel'
+            },
+            en: {
+                language: 'العربية',
+                title: 'Integrated HACCP System',
+                description: 'Food safety management program for Shawarma, Burger, Pizza restaurants and bakeries according to Saudi Arabia requirements',
+                dashboard: 'Dashboard',
+                prps: 'PRPs',
+                ccps: 'CCPs',
+                records: 'Daily Records',
+                verification: 'Verification',
+                team: 'HACCP Team',
+                export: 'Export Records',
+                fridgeStatus: 'Fridge Status',
+                compliance: 'compliance',
+                fridges: 'fridges',
+                oneNeedsFollowup: 'one needs follow-up',
+                completedRecords: 'Completed Records',
+                excellent: 'Excellent',
+                recordOutOf: 'record out of',
+                completed: 'completed',
+                nonConformities: 'Non-conformities',
+                improvedBy: 'Improved by',
+                casesResolved: 'cases resolved',
+                casesInProgress: 'cases in progress',
+                training: 'Training',
+                employees: 'employees',
+                needTraining: 'need new training',
+                ccpStatus: 'CCP Status This Month',
+                upcomingReviews: 'Upcoming Reviews',
+                calibration: 'Device calibration',
+                tomorrow: 'Tomorrow',
+                monthlyReview: 'Monthly review',
+                after5Days: 'After 5 days',
+                newTraining: 'New training',
+                afterWeek: 'After a week',
+                urgentTasks: 'Urgent Tasks',
+                pestInspection: 'Pest inspection',
+                reportSubmission: 'Submit authority report',
+                supplierRenewal: 'Renew supplier certificate',
+                edit: 'Edit',
+                delete: 'Delete',
+                exportExcel: 'Export Excel'
+            }
+        };
+        
+        document.querySelectorAll('[data-translate]').forEach(el => {
+            const key = el.getAttribute('data-translate');
+            el.textContent = translations[lang][key] || el.textContent;
+        });
+    }
+    
+    // دالة لتبديل الوضع الليلي
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode);
+        
+        if (isDarkMode) {
+            this.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+            this.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+        
+        // إشعار بتغيير الوضع
+        showNotification('تم التغيير', isDarkMode ? 'تم تفعيل الوضع الليلي' : 'تم تفعيل الوضع النهاري', 'success');
+    }
+    
+    // دالة لتهيئة الوضع الليلي
+    function initDarkMode() {
+        const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+        if (savedDarkMode) {
+            document.body.classList.add('dark-mode');
+            document.getElementById('dark-mode-toggle').innerHTML = '<i class="fas fa-sun"></i>';
+        }
+    }
+    
+    // دالة لعرض إشعار
+    function showNotification(title, message, type = 'success') {
+        Swal.fire({
+            title: title,
+            text: message,
+            icon: type,
+            confirmButtonText: 'موافق',
+            timer: 3000
+        });
+    }
+    
+    // دالة للتعامل مع حذف العناصر
+    function handleDeleteActions(e) {
+        if (e.target.classList.contains('action-btn') && e.target.classList.contains('btn-danger')) {
+            const row = e.target.closest('tr');
+            if (row) {
+                Swal.fire({
+                    title: 'هل أنت متأكد؟',
+                    text: "لن تتمكن من التراجع عن هذا الإجراء!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم، احذفه!',
+                    cancelButtonText: 'إلغاء'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        row.remove();
+                        showNotification('تم الحذف', 'تم حذف العنصر بنجاح', 'success');
+                    }
+                });
+            }
+        }
+        
+        if (e.target.classList.contains('btn-danger') && e.target.closest('.team-member')) {
+            const member = e.target.closest('.team-member');
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: "لن تتمكن من التراجع عن هذا الإجراء!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'نعم، احذفه!',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    member.remove();
+                    showNotification('تم الحذف', 'تم حذف العضو بنجاح', 'success');
+                }
+            });
+        }
+    }
+    
+    // دالة للحصول على البيانات من التخزين المحلي
+    function getDataFromLocalStorage() {
+        return JSON.parse(localStorage.getItem('haccpData')) || {};
+    }
+    
+    // دالة لتعيين التاريخ الحالي كقيمة افتراضية
+    function setDefaultDates() {
+        const today = new Date().toISOString().split('T')[0];
+        document.querySelectorAll('input[type="date"]').forEach(input => {
+            if(!input.value) input.value = today;
+        });
+    }
+    
+    // دالة لتطبيق البيانات على الواجهة
+    function renderData(data) {
+        // تطبيق بيانات سجلات الثلاجات
+        if (data.fridgeRecords && data.fridgeRecords.length > 0) {
+            const table = document.getElementById('fridge-records-table');
+            if (table) {
+                // مسح الصفوف القديمة (باستثناء رأس الجدول)
+                while (table.rows.length > 1) {
+                    table.deleteRow(1);
+                }
+                
+                // إضافة الصفوف الجديدة
+                data.fridgeRecords.forEach(record => {
+                    const newRow = table.insertRow(-1);
+                    newRow.innerHTML = `
+                        <td>${sanitizeHTML(record.date)}</td>
+                        <td>${sanitizeHTML(record.time)}</td>
+                        <td>${sanitizeHTML(record.location)}</td>
+                        <td>${sanitizeHTML(record.temp)}</td>
+                        <td>${sanitizeHTML(record.responsible)}</td>
+                        <td>${sanitizeHTML(record.notes)}</td>
+                        <td>
+                            <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+                        </td>
+                    `;
+                });
+            }
+        }
+        
+        // تطبيق بيانات فريق الهاسب
+        if (data.teamMembers && data.teamMembers.length > 0) {
+            const teamGrid = document.getElementById('team-members');
+            if (teamGrid) {
+                teamGrid.innerHTML = '';
+                
+                data.teamMembers.forEach(member => {
+                    const memberHTML = `
+                        <div class="team-member">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h4>${sanitizeHTML(member.name)}</h4>
+                            <div class="role">${sanitizeHTML(member.role)}</div>
+                            <div class="email">${sanitizeHTML(member.email)}</div>
+                            <div class="phone">${sanitizeHTML(member.phone)}</div>
+                            <p>${sanitizeHTML(member.responsibilities)}</p>
+                            <div class="actions">
+                                <button class="btn btn-warning"><i class="fas fa-edit"></i> <span data-translate="edit">تعديل</span></button>
+                                <button class="btn btn-danger"><i class="fas fa-trash"></i> <span data-translate="delete">حذف</span></button>
+                            </div>
+                        </div>
+                    `;
+                    teamGrid.insertAdjacentHTML('beforeend', memberHTML);
+                });
+            }
+        }
+    }
+    
+    // دالة لتنظيف HTML لمنع هجمات XSS
+    function sanitizeHTML(str) {
+        const temp = document.createElement('div');
+        temp.textContent = str;
+        return temp.innerHTML;
+    }
+    
+    // دالة لتهيئة الرسوم البيانية
+    function initCharts() {
+        const ccpCtx = document.getElementById('ccp-chart');
+        if (ccpCtx) {
+            const ccpChart = new Chart(ccpCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1 أكتوبر', '5 أكتوبر', '10 أكتوبر', '15 أكتوبر', '20 أكتوبر', '25 أكتوبر'],
+                    datasets: [{
+                        label: 'درجة الحرارة (°م)',
+                        data: [4.5, 5.2, 4.8, 4.3, 4.6, 4.2],
+                        borderColor: '#3498db',
+                        backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }, {
+                        label: 'زمن التبريد (دقيقة)',
+                        data: [85, 88, 90, 92, 87, 85],
+                        borderColor: '#2ecc71',
+                        backgroundColor: 'rgba(46, 204, 113, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'القيم'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'التاريخ'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
+    // دالة لتهيئة وظائف التصدير
+    function initExportFunctions() {
+        // إضافة زر Excel إذا لم يكن موجودًا
+        if (!document.getElementById('export-excel')) {
+            const excelBtn = document.createElement('button');
+            excelBtn.className = 'btn btn-excel';
+            excelBtn.id = 'export-excel';
+            excelBtn.innerHTML = '<i class="fas fa-file-excel"></i> <span data-translate="exportExcel">تصدير Excel</span>';
+            document.querySelector('.download-options').appendChild(excelBtn);
+            
+            // إضافة ترجمة للزر الجديد
+            if (document.documentElement.lang === 'en') {
+                excelBtn.querySelector('span').textContent = 'Export Excel';
+            }
+        }
+        
+        // ربط أحداث التصدير
+        document.getElementById('export-pdf').addEventListener('click', exportToPDF);
+        document.getElementById('export-word').addEventListener('click', exportToWord);
+        document.getElementById('export-excel').addEventListener('click', exportToExcel);
+    }
+    
+    // دالة لتصدير إلى PDF
+    function exportToPDF() {
+        const recordType = document.getElementById('record-type').value;
+        showNotification('جاري التصدير', 'جاري تحضير ملف PDF...', 'info');
+        
+        // محاكاة عملية التصدير
+        setTimeout(() => {
+            showNotification('تم التصدير', `تم تصدير ${recordType} إلى PDF بنجاح`, 'success');
+        }, 1500);
+    }
+    
+    // دالة لتصدير إلى Word
+    function exportToWord() {
+        const recordType = document.getElementById('record-type').value;
+        showNotification('جاري التصدير', 'جاري تحضير ملف Word...', 'info');
+        
+        // محاكاة عملية التصدير
+        setTimeout(() => {
+            showNotification('تم التصدير', `تم تصدير ${recordType} إلى Word بنجاح`, 'success');
+        }, 1500);
+    }
+    
+    // دالة لتصدير إلى Excel
+    function exportToExcel() {
+        const recordType = document.getElementById('record-type').value;
+        showNotification('جاري التصدير', 'جاري تحضير ملف Excel...', 'info');
+        
+        // محاكاة عملية التصدير
+        setTimeout(() => {
+            showNotification('تم التصدير', `تم تصدير ${recordType} إلى Excel بنجاح`, 'success');
+        }, 1500);
+    }
+</script>
 </body>
 </html>
+
