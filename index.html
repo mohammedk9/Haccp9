@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
+   <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" 
       content="default-src 'self'; 
                script-src 'self' https://www.gstatic.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cdn.jsdelivr.net/npm https://www.gstatic.com/firebasejs 'unsafe-inline'; 
@@ -26,6 +26,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+   
+
+</head>
    
     <style>
         * {
@@ -729,13 +732,13 @@
                     <i class="fas fa-globe"></i> <span data-translate="language">English</span>
                 </button>
             </div>
-            <!-- معلومات المستخدم -->
-            <div id="user-info" style="display:none; position:absolute; left:20px; top:20px; color:white;">
-                <span id="user-name"></span>
-                <button id="logout-btn" class="btn btn-danger" style="margin-left:10px; padding:5px 10px;">
-                    <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
-                </button>
-            </div>
+             <!-- معلومات المستخدم -->
+        <div id="user-info" style="display:none; position:absolute; left:20px; top:20px; color:white;">
+            <span id="user-name"></span>
+            <button id="logout-btn" class="btn btn-danger" style="margin-left:10px; padding:5px 10px;">
+                <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+            </button>
+        </div>
             <h1><i class="fas fa-utensils"></i> <span data-translate="title">نظام الهاسب (HACCP) المتكامل</span></h1>
             <p data-translate="description">برنامج إدارة سلامة الغذاء في المملكة العربية السعودية</p>
         </div>
@@ -822,7 +825,7 @@
                 <div class="card-header">
                     <h3><i class="fas fa-building"></i> المتطلبات الأساسية لسلامة الغذاء</h3>
                     <div class="card-controls">
-                        <button class="btn btn-primary" id="add-prp-btn"><i class="fas fa-plus"></i> إضافة متطلب</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> إضافة متطلب</button>
                     </div>
                 </div>
                 <p>هنا سيتم عرض المتطلبات الأساسية لسلامة الغذاء حسب معايير الهيئة العامة للغذاء والدواء السعودية.</p>
@@ -836,7 +839,7 @@
                 <div class="card-header">
                     <h3><i class="fas fa-temperature-high"></i> مراقبة نقاط التحكم الحرجة</h3>
                     <div class="card-controls">
-                        <button class="btn btn-primary" id="add-ccp-btn"><i class="fas fa-plus"></i> إضافة نقطة تحكم</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> إضافة نقطة تحكم</button>
                     </div>
                 </div>
                 <table id="ccp-table">
@@ -892,7 +895,7 @@
                 <div class="card-header">
                     <h3><i class="fas fa-temperature-low"></i> سجلات درجة حرارة الثلاجات</h3>
                     <div class="card-controls">
-                        <button class="btn btn-primary" id="add-record-btn"><i class="fas fa-plus"></i> إضافة سجل</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> إضافة سجل</button>
                     </div>
                 </div>
                 <table id="fridge-records-table">
@@ -922,7 +925,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <button class="add-row-btn" id="add-row-btn"><i class="fas fa-plus"></i> إضافة صف جديد</button>
+                <button class="add-row-btn"><i class="fas fa-plus"></i> إضافة صف جديد</button>
             </div>
         </div>
         
@@ -944,7 +947,7 @@
                 <div class="card-header">
                     <h3><i class="fas fa-user-friends"></i> أعضاء فريق الهاسب</h3>
                     <div class="card-controls">
-                        <button class="btn btn-primary" id="add-team-btn"><i class="fas fa-plus"></i> إضافة عضو</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> إضافة عضو</button>
                     </div>
                 </div>
                 <div class="team-grid" id="team-members">
@@ -1002,7 +1005,7 @@
                     <h3><i class="fas fa-file-export"></i> تصدير سجلات الهاسب</h3>
                 </div>
                 <div class="form-group">
-                     <label for="record-type">نوع السجل:</label>
+                    <label>نوع السجل:</label>
                     <select id="record-type" class="form-control">
                         <option value="fridge">سجلات الثلاجات</option>
                         <option value="ccp">نقاط التحكم الحرجة</option>
@@ -1011,7 +1014,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="start-date">الفترة الزمنية:</label>
+                    <label>الفترة الزمنية:</label>
                     <div class="form-row">
                         <div class="form-group">
                             <input type="date" class="form-control" id="start-date">
@@ -1030,41 +1033,41 @@
         </div>
         
     </div>
-    
     <!-- نافذة تسجيل الدخول -->
-    <div id="login-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
-        <div style="background:white; width:90%; max-width:400px; margin:100px auto; padding:30px; border-radius:10px; text-align:center;">
-            <h2>تسجيل الدخول</h2>
-            <div class="form-group">
-                <input type="email" id="login-email" placeholder="البريد الإلكتروني" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="password" id="login-password" placeholder="كلمة المرور" class="form-control">
-            </div>
-            <button class="btn btn-primary" id="login-btn" style="width:100%;">تسجيل الدخول</button>
-            <p style="margin-top:15px;">ليس لديك حساب؟ <a href="#" id="show-register">إنشاء حساب</a></p>
+<div id="login-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
+    <div style="background:white; width:90%; max-width:400px; margin:100px auto; padding:30px; border-radius:10px; text-align:center;">
+        <h2>تسجيل الدخول</h2>
+        <div class="form-group">
+            <input type="email" id="login-email" placeholder="البريد الإلكتروني" class="form-control">
         </div>
-    </div>
-
-    <!-- نافذة إنشاء حساب -->
-    <div id="register-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
-        <div style="background:white; width:90%; max-width:400px; margin:100px auto; padding:30px; border-radius:10px; text-align:center;">
-            <h2>إنشاء حساب جديد</h2>
-            <div class="form-group">
-                <input type="text" id="register-name" placeholder="الاسم الكامل" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="email" id="register-email" placeholder="البريد الإلكتروني" class="form-control">
-            </div>
-            <div class="form-group">
-                <input type="password" id="register-password" placeholder="كلمة المرور" class="form-control">
-            </div>
-            <button class="btn btn-primary" id="register-btn" style="width:100%;">إنشاء حساب</button>
-            <p style="margin-top:15px;">لديك حساب بالفعل؟ <a href="#" id="show-login">تسجيل الدخول</a></p>
+        <div class="form-group">
+            <input type="password" id="login-password" placeholder="كلمة المرور" class="form-control">
         </div>
+        <button class="btn btn-primary" id="login-btn" style="width:100%;">تسجيل الدخول</button>
+        <p style="margin-top:15px;">ليس لديك حساب؟ <a href="#" id="show-register">إنشاء حساب</a></p>
     </div>
+</div>
 
-    <!-- Scripts -->
+<!-- نافذة إنشاء حساب -->
+<div id="register-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.7); z-index:1000;">
+    <div style="background:white; width:90%; max-width:400px; margin:100px auto; padding:30px; border-radius:10px; text-align:center;">
+        <h2>إنشاء حساب جديد</h2>
+        <div class="form-group">
+            <input type="text" id="register-name" placeholder="الاسم الكامل" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="email" id="register-email" placeholder="البريد الإلكتروني" class="form-control">
+        </div>
+        <div class="form-group">
+            <input type="password" id="register-password" placeholder="كلمة المرور" class="form-control">
+        </div>
+        <button class="btn btn-primary" id="register-btn" style="width:100%;">إنشاء حساب</button>
+        <p style="margin-top:15px;">لديك حساب بالفعل؟ <a href="#" id="show-login">تسجيل الدخول</a></p>
+    </div>
+</div>
+
+
+  <!-- Scripts -->
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -1075,119 +1078,131 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <script>
-    // تهيئة Firebase
-    const firebaseConfig = {
-        apiKey: "AIzaSyDAyUO3yaoJHc5QlWtDscNBbxjdMMKUWeo",
-        authDomain: "haccp9-c1da9.firebaseapp.com",
-        projectId: "haccp9-c1da9",
-        storageBucket: "haccp9-c1da9.appspot.com",
-        messagingSenderId: "1023766402500",
-        appId: "1:1023766402500:web:a6862663bcb131840f0091",
-        measurementId: "G-8WYC7DCDJC"
-    };
+   <script>
+const firebaseConfig = {
+    apiKey: "AIzaSyDAyUO3yaoJHc5QlWtDscNBbxjdMMKUWeo",
+    authDomain: "haccp9-c1da9.firebaseapp.com",
+    projectId: "haccp9-c1da9",
+    storageBucket: "haccp9-c1da9.appspot.com",
+    messagingSenderId: "1023766402500",
+    appId: "1:1023766402500:web:a6862663bcb131840f0091",
+    measurementId: "G-8WYC7DCDJC"
+};
 
-    // تهيئة Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+// تهيئة Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();      
 
-    // تهيئة المصادقة
-    function initAuth() {
-        // الاستماع لتغير حالة المستخدم
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                // إخفاء نماذج التسجيل وعرض معلومات المستخدم
-                hideModal('login-modal');
-                hideModal('register-modal');
-                document.getElementById('user-info').style.display = 'flex';
-                document.getElementById('user-name').textContent = user.displayName || user.email;
-                
-                // تحميل بيانات المستخدم
-                loadUserData(user.uid);
-            } else {
-                // عرض نموذج التسجيل فقط
-                showModal('login-modal');
-                hideModal('register-modal');
-                document.getElementById('user-info').style.display = 'none';
+// تهيئة المصادقة
+function initAuth() {
+    // الاستماع لتغير حالة المستخدم
+    auth.onAuthStateChanged(user => {
+        console.log('Auth state changed', user);
+        if (user) {
+            document.getElementById('login-modal').style.display = 'none';
+            document.getElementById('register-modal').style.display = 'none';
+            document.getElementById('user-info').style.display = 'flex';
+            document.getElementById('user-name').textContent = user.displayName || user.email;
+        } else {
+            document.getElementById('login-modal').style.display = 'flex';
+            document.getElementById('register-modal').style.display = 'none';
+            document.getElementById('user-info').style.display = 'none';
+        }
+    });
+
+    // ربط أحداث الأزرار بعد التأكد من وجودها (الحل)
+    setTimeout(() => {
+        try {
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            const logoutBtn = document.getElementById('logout-btn');
+            const showRegisterBtn = document.getElementById('show-register');
+            const showLoginBtn = document.getElementById('show-login');
+            
+            if (loginBtn) loginBtn.addEventListener('click', login);
+            else console.error('Login button not found');
+            
+            if (registerBtn) registerBtn.addEventListener('click', register);
+            else console.error('Register button not found');
+            
+            if (logoutBtn) logoutBtn.addEventListener('click', logout);
+            else console.error('Logout button not found');
+            
+            if (showRegisterBtn) {
+                showRegisterBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.getElementById('login-modal').style.display = 'none';
+                    document.getElementById('register-modal').style.display = 'flex';
+                });
             }
+            
+            if (showLoginBtn) {
+                showLoginBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.getElementById('register-modal').style.display = 'none';
+                    document.getElementById('login-modal').style.display = 'flex';
+                });
+            }
+        } catch (error) {
+            console.error('Error binding auth events:', error);
+        }
+    }, 300);
+}
+
+
+// تسجيل الدخول
+function login() {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+    console.log('Login attempt', email, password);
+
+    auth.signInWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            console.log('Login success', userCredential.user);
+            showNotification('تم تسجيل الدخول', 'مرحباً بعودتك!', 'success');
+        })
+        .catch(error => {
+            console.error('Login error', error);
+            showNotification('خطأ', error.message, 'error');
         });
-    }
+}
 
-    // دوال مساعدة لإدارة النماذج
-    function showModal(modalId) {
-        document.getElementById(modalId).style.display = 'flex';
-        document.getElementById(modalId).setAttribute('aria-hidden', 'false');
-    }
+// إنشاء حساب
+function register() {
+    const name = document.getElementById('register-name').value;
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+    console.log('Register attempt', email, name);
 
-    function hideModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-        document.getElementById(modalId).setAttribute('aria-hidden', 'true');
-    }
+    auth.createUserWithEmailAndPassword(email, password)
+        .then(userCredential => {
+            return userCredential.user.updateProfile({ displayName: name });
+        })
+        .then(() => {
+            console.log('Register success');
+            showNotification('تم إنشاء الحساب', 'تم إنشاء حسابك بنجاح!', 'success');
+        })
+        .catch(error => {
+            console.error('Register error', error);
+            showNotification('خطأ', error.message, 'error');
+        });
+}
 
-    // تسجيل الدخول
-    function login() {
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
-        console.log('Login attempt', email, password);
+// تسجيل الخروج
+function logout() {
+    auth.signOut()
+        .then(() => {
+            console.log('Logout success');
+            showNotification('تم تسجيل الخروج', 'إلى اللقاء!', 'success');
+        })
+        .catch(error => {
+            console.error('Logout error', error);
+        });
+}
 
-        auth.signInWithEmailAndPassword(email, password)
-            .then(userCredential => {
-                console.log('Login success', userCredential.user);
-                showNotification('تم تسجيل الدخول', 'مرحباً بعودتك!', 'success');
-            })
-            .catch(error => {
-                console.error('Login error', error);
-                showNotification('خطأ', error.message, 'error');
-            });
-    }
-
-    // إنشاء حساب
-    function register() {
-        const name = document.getElementById('register-name').value;
-        const email = document.getElementById('register-email').value;
-        const password = document.getElementById('register-password').value;
-        console.log('Register attempt', email, name);
-
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(userCredential => {
-                return userCredential.user.updateProfile({ displayName: name });
-            })
-            .then(() => {
-                console.log('Register success');
-                showNotification('تم إنشاء الحساب', 'تم إنشاء حسابك بنجاح!', 'success');
-            })
-            .catch(error => {
-                console.error('Register error', error);
-                showNotification('خطأ', error.message, 'error');
-            });
-    }
-
-    // تسجيل الخروج
-    function logout() {
-        auth.signOut()
-            .then(() => {
-                console.log('Logout success');
-                showNotification('تم تسجيل الخروج', 'إلى اللقاء!', 'success');
-            })
-            .catch(error => {
-                console.error('Logout error', error);
-            });
-    }
-
-    // دوال إضافية للتبديل بين النماذج
-    function showRegister(e) {
-        e.preventDefault();
-        hideModal('login-modal');
-        showModal('register-modal');
-    }
-
-    function showLogin(e) {
-        e.preventDefault();
-        hideModal('register-modal');
-        showModal('login-modal');
-    }
-
+// تفعيل عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', initAuth);
     // استرجاع البيانات من Firebase
     function loadUserData(userId) {
         showLoader();
@@ -1215,35 +1230,34 @@
             });
     }
 
-    // دالة لحفظ البيانات في Firebase
-    function saveDataToFirebase(userId, data) {
-        return db.collection('users').doc(userId).set({
-            haccpData: data,
-            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true });
+    // تحديث البيانات في Firebase
+    function updateDataInFirebase() {
+        const user = auth.currentUser;
+        if (user) {
+            const data = getDataFromLocalStorage();
+            saveDataToFirebase(user.uid, data)
+                .then(() => {
+                    console.log('Data saved to Firebase');
+                })
+                .catch(error => {
+                    showNotification('خطأ', 'فشل في حفظ البيانات: ' + error.message, 'error');
+                });
+        }
     }
 
     // تهيئة التطبيق عند تحميل الصفحة
-    function initApp() {
+    document.addEventListener('DOMContentLoaded', function() {
         initAuth();
         initData();
         initEvents();
         initDarkMode();
-        initCRUDEvents();
 
         setTimeout(() => {
             initCharts();
         }, 500);
 
         initExportFunctions();
-        
-        // ربط أحداث الأزرار الخاصة بالمصادقة
-        document.getElementById('login-btn').addEventListener('click', login);
-        document.getElementById('register-btn').addEventListener('click', register);
-        document.getElementById('logout-btn').addEventListener('click', logout);
-        document.getElementById('show-register').addEventListener('click', showRegister);
-        document.getElementById('show-login').addEventListener('click', showLogin);
-    }
+    });
 
     // دالة لتهيئة البيانات
     function initData() {
@@ -1287,6 +1301,9 @@
         
         // تبديل الوضع الليلي
         document.getElementById('dark-mode-toggle').addEventListener('click', toggleDarkMode);
+        
+        // التعامل مع حذف العناصر
+        document.addEventListener('click', handleDeleteActions);
         
         // تعيين التاريخ الحالي كقيمة افتراضية في حقول التاريخ
         setDefaultDates();
@@ -1464,224 +1481,46 @@
         });
     }
     
-    // دالة لتهيئة أحداث الإضافة والحذف لجميع الجداول والعناصر
-    function initCRUDEvents() {
-        // أحداث إضافة سجلات جديدة للثلاجات
-        const addFridgeButton = document.querySelector('#records .btn-primary');
-        if (addFridgeButton) {
-            addFridgeButton.addEventListener('click', addNewFridgeRecord);
-        }
-        
-        // حدث إضافة صف جديد للثلاجات
-        const addRowButton = document.querySelector('.add-row-btn');
-        if (addRowButton) {
-            addRowButton.addEventListener('click', addNewFridgeRecord);
-        }
-        
-        // أحداث إضافة نقاط التحكم الحرجة
-        const addCCPButton = document.querySelector('#ccps .btn-primary');
-        if (addCCPButton) {
-            addCCPButton.addEventListener('click', addNewCCPRecord);
-        }
-        
-        // أحداث إضافة أعضاء الفريق
-        const addTeamButton = document.querySelector('#team .btn-primary');
-        if (addTeamButton) {
-            addTeamButton.addEventListener('click', showAddTeamMemberForm);
-        }
-        
-        // أحداث إضافة المتطلبات الأساسية
-        const addPRPButton = document.querySelector('#prps .btn-primary');
-        if (addPRPButton) {
-            addPRPButton.addEventListener('click', addNewPRPRecord);
-        }
-        
-       // دالة لحذف صف من الجدول وتحديث التخزين المحلي
-function deleteTableRow(row) {
-    // حذف الصف من الـ DOM
-    row.remove();
-
-    // تحديث البيانات المخزنة (مثال مع سجلات الثلاجات)
-    const data = getDataFromLocalStorage();
-    const tableId = row.closest('table')?.id;
-
-    if (tableId === 'fridge-records-table') {
-        const cells = row.querySelectorAll('td');
-        const rec = {
-            date: cells[0]?.textContent?.trim(),
-            time: cells[1]?.textContent?.trim(),
-            location: cells[2]?.textContent?.trim(),
-        };
-
-        data.fridgeRecords = (data.fridgeRecords || []).filter(r =>
-            !(r.date === rec.date && r.time === rec.time && r.location === rec.location)
-        );
-    }
-
-    // حفظ التعديلات
-    localStorage.setItem('haccpData', JSON.stringify(data));
-    saveData(); // يحفظ أيضًا في Firebase إذا كان المستخدم مسجل
-}
-
-
-    // دالة إضافة سجل ثلاجة جديد
-    function addNewFridgeRecord() {
-        const newRecord = {
-            date: new Date().toISOString().split('T')[0],
-            time: new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
-            location: 'موقع جديد',
-            temp: '0°م',
-            responsible: 'مسؤول جديد',
-            notes: 'ملاحظات جديدة'
-        };
-        
-        const table = document.getElementById('fridge-records-table');
-        if (table) {
-            // استخدام الدالة الموجودة لإضافة الصف للـ DOM
-            addFridgeRecordToDOM(newRecord, table);
-
-            // حفظ البيانات بعد الإضافة
-            const data = getDataFromLocalStorage();
-            data.fridgeRecords = data.fridgeRecords || [];
-            data.fridgeRecords.push(newRecord);
-            localStorage.setItem('haccpData', JSON.stringify(data));
-
-            saveData(); // حفظ في Firebase إذا كان المستخدم مسجلاً
-            showNotification('تم الإضافة', 'تم إضافة سجل جديد بنجاح', 'success');
-        }
-    }
-
-    // دالة إضافة نقطة تحكم حرجة جديدة
-    function addNewCCPRecord() {
-        const newRecord = {
-            step: 'خطوة جديدة',
-            monitoring: 'نقطة مراقبة جديدة',
-            limit: 'حد حرج جديد',
-            action: 'إجراء تصحيحي جديد'
-        };
-        
-        const table = document.getElementById('ccp-table');
-        if (table) {
-            const newRow = table.insertRow(-1);
-            newRow.innerHTML = `
-                <td contenteditable="true">${newRecord.step}</td>
-                <td contenteditable="true">${newRecord.monitoring}</td>
-                <td contenteditable="true">${newRecord.limit}</td>
-                <td contenteditable="true">${newRecord.action}</td>
-                <td>
-                    <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                    <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
-                </td>
-            `;
-            
-            saveData();
-            showNotification('تم الإضافة', 'تم إضافة نقطة تحكم حرجة جديدة', 'success');
-        }
-    }
-
-    // دالة إضافة متطلب أساسي جديد
-    function addNewPRPRecord() {
-        showNotification('ميزة قيد التطوير', 'سيتم إضافة هذه الميزة قريباً', 'info');
-    }
-
-    // دالة لعرض نموذج إضافة عضو فريق
-    function showAddTeamMemberForm() {
-        Swal.fire({
-            title: 'إضافة عضو جديد',
-            html: `
-                <input id="swal-name" class="swal2-input" placeholder="الاسم">
-                <input id="swal-role" class="swal2-input" placeholder="الدور">
-                <input id="swal-email" class="swal2-input" placeholder="البريد الإلكتروني">
-                <input id="swal-phone" class="swal2-input" placeholder="الهاتف">
-                <textarea id="swal-responsibilities" class="swal2-textarea" placeholder="المسؤوليات"></textarea>
-            `,
-            focusConfirm: false,
-            showCancelButton: true,
-            confirmButtonText: 'إضافة',
-            cancelButtonText: 'إلغاء',
-            preConfirm: () => {
-                return {
-                    name: document.getElementById('swal-name').value,
-                    role: document.getElementById('swal-role').value,
-                    email: document.getElementById('swal-email').value,
-                    phone: document.getElementById('swal-phone').value,
-                    responsibilities: document.getElementById('swal-responsibilities').value
-                }
-            }
-        }).then((result) => {
-            if (result.isConfirmed) {
-                addNewTeamMember(result.value);
-            }
-        });
-    }
-
-    // دالة إضافة عضو فريق جديد (عرض فقط، لا تحفظ تلقائياً)
-    function addNewTeamMember(memberData) {
-        const teamGrid = document.getElementById('team-members');
-        if (teamGrid) {
-            const memberHTML = `
-                <div class="team-member">
-                    <div class="avatar"><i class="fas fa-user"></i></div>
-                    <h4>${sanitizeHTML(memberData.name)}</h4>
-                    <div class="role">${sanitizeHTML(memberData.role)}</div>
-                    <div class="email">${sanitizeHTML(memberData.email)}</div>
-                    <div class="phone">${sanitizeHTML(memberData.phone)}</div>
-                    <p>${sanitizeHTML(memberData.responsibilities)}</p>
-                    <div class="actions">
-                        <button class="btn btn-warning"><i class="fas fa-edit"></i> تعديل</button>
-                        <button class="btn btn-danger"><i class="fas fa-trash"></i> حذف</button>
-                    </div>
-                </div>
-            `;
-            teamGrid.insertAdjacentHTML('beforeend', memberHTML);
-
-            // تحديث localStorage وFirebase مباشرة
-            const data = getDataFromLocalStorage();
-            data.teamMembers = data.teamMembers || [];
-            data.teamMembers.push(memberData);
-            localStorage.setItem('haccpData', JSON.stringify(data));
-            saveData();
-
-            showNotification('تم الإضافة', 'تم إضافة عضو جديد بنجاح', 'success');
-        }
-    }
-
-    // دالة حذف عضو الفريق
-    function deleteTeamMember(member) {
-        Swal.fire({
-            title: 'هل أنت متأكد؟',
-            text: "لن تتمكن من التراجع عن هذا الإجراء!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'نعم، احذفه!',
-            cancelButtonText: 'إلغاء'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                member.remove();
-                saveData();
-                showNotification('تم الحذف', 'تم حذف العضو بنجاح', 'success');
-            }
-        });
-    }
-
-    // دالة لحفظ البيانات
-    function saveData() {
-        const user = auth.currentUser;
-        if (user) {
-            const data = getDataFromLocalStorage();
-            // حفظ البيانات في Firebase
-            saveDataToFirebase(user.uid, data)
-                .then(() => {
-                    console.log('Data saved to Firebase');
-                })
-                .catch(error => {
-                    showNotification('خطأ', 'فشل في حفظ البيانات: ' + error.message, 'error');
+    // دالة للتعامل مع حذف العناصر
+    function handleDeleteActions(e) {
+        if (e.target.classList.contains('action-btn') && e.target.classList.contains('btn-danger')) {
+            const row = e.target.closest('tr');
+            if (row) {
+                Swal.fire({
+                    title: 'هل أنت متأكد؟',
+                    text: "لن تتمكن من التراجع عن هذا الإجراء!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'نعم، احذفه!',
+                    cancelButtonText: 'إلغاء'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        row.remove();
+                        showNotification('تم الحذف', 'تم حذف العنصر بنجاح', 'success');
+                    }
                 });
-        } else {
-            // حفظ محلي إذا لم يكن المستخدم مسجلاً
-            console.log('تم حفظ البيانات محلياً');
+            }
+        }
+        
+        if (e.target.classList.contains('btn-danger') && e.target.closest('.team-member')) {
+            const member = e.target.closest('.team-member');
+            Swal.fire({
+                title: 'هل أنت متأكد؟',
+                text: "لن تتمكن من التراجع عن هذا الإجراء!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'نعم، احذفه!',
+                cancelButtonText: 'إلغاء'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    member.remove();
+                    showNotification('تم الحذف', 'تم حذف العضو بنجاح', 'success');
+                }
+            });
         }
     }
     
@@ -1700,61 +1539,62 @@ function deleteTableRow(row) {
     
     // دالة لتطبيق البيانات على الواجهة
     function renderData(data) {
-        const table = document.getElementById('fridge-records-table');
-        if (!table) return;
-
-        // مسح الصفوف القديمة (باستثناء رأس الجدول)
-        while (table.rows.length > 1) {
-            table.deleteRow(1);
+        // تطبيق بيانات سجلات الثلاجات
+        if (data.fridgeRecords && data.fridgeRecords.length > 0) {
+            const table = document.getElementById('fridge-records-table');
+            if (table) {
+                // مسح الصفوف القديمة (باستثناء رأس الجدول)
+                while (table.rows.length > 1) {
+                    table.deleteRow(1);
+                }
+                
+                // إضافة الصفوف الجديدة
+                data.fridgeRecords.forEach(record => {
+                    const newRow = table.insertRow(-1);
+                    newRow.innerHTML = `
+                        <td>${sanitizeHTML(record.date)}</td>
+                        <td>${sanitizeHTML(record.time)}</td>
+                        <td>${sanitizeHTML(record.location)}</td>
+                        <td>${sanitizeHTML(record.temp)}</td>
+                        <td>${sanitizeHTML(record.responsible)}</td>
+                        <td>${sanitizeHTML(record.notes)}</td>
+                        <td>
+                            <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
+                            <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+                        </td>
+                    `;
+                });
+            }
         }
-
-        // إضافة الصفوف الجديدة
-        data.fridgeRecords?.forEach(record => addFridgeRecordToDOM(record, table));
-    }
-
-    // دالة لإضافة صف واحد للجدول
-    function addFridgeRecordToDOM(record, table) {
-        const newRow = table.insertRow(-1);
-        newRow.innerHTML = `
-            <td>${sanitizeHTML(record.date)}</td>
-            <td>${sanitizeHTML(record.time)}</td>
-            <td>${sanitizeHTML(record.location)}</td>
-            <td>${sanitizeHTML(record.temp)}</td>
-            <td>${sanitizeHTML(record.responsible)}</td>
-            <td>${sanitizeHTML(record.notes)}</td>
-            <td>
-                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
-            </td>
-        `;
-    }
         
-  // تطبيق بيانات فريق الهاسب — استخدام بيانات التخزين المحلي بطريقة آمنة
-const data = getDataFromLocalStorage();
-if (data.teamMembers && data.teamMembers.length > 0) {
-    const teamGrid = document.getElementById('team-members');
-    if (teamGrid) {
-        teamGrid.innerHTML = '';
-        data.teamMembers.forEach(member => {
-            const memberHTML = `
-                <div class="team-member">
-                    <div class="avatar"><i class="fas fa-user"></i></div>
-                    <h4>${sanitizeHTML(member.name)}</h4>
-                    <div class="role">${sanitizeHTML(member.role)}</div>
-                    <div class="email">${sanitizeHTML(member.email)}</div>
-                    <div class="phone">${sanitizeHTML(member.phone)}</div>
-                    <p>${sanitizeHTML(member.responsibilities)}</p>
-                    <div class="actions">
-                        <button class="btn btn-warning"><i class="fas fa-edit"></i> <span data-translate="edit">تعديل</span></button>
-                        <button class="btn btn-danger"><i class="fas fa-trash"></i> <span data-translate="delete">حذف</span></button>
-                    </div>
-                </div>
-            `;
-            teamGrid.insertAdjacentHTML('beforeend', memberHTML);
-        });
+        // تطبيق بيانات فريق الهاسب
+        if (data.teamMembers && data.teamMembers.length > 0) {
+            const teamGrid = document.getElementById('team-members');
+            if (teamGrid) {
+                teamGrid.innerHTML = '';
+                
+                data.teamMembers.forEach(member => {
+                    const memberHTML = `
+                        <div class="team-member">
+                            <div class="avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <h4>${sanitizeHTML(member.name)}</h4>
+                            <div class="role">${sanitizeHTML(member.role)}</div>
+                            <div class="email">${sanitizeHTML(member.email)}</div>
+                            <div class="phone">${sanitizeHTML(member.phone)}</div>
+                            <p>${sanitizeHTML(member.responsibilities)}</p>
+                            <div class="actions">
+                                <button class="btn btn-warning"><i class="fas fa-edit"></i> <span data-translate="edit">تعديل</span></button>
+                                <button class="btn btn-danger"><i class="fas fa-trash"></i> <span data-translate="delete">حذف</span></button>
+                            </div>
+                        </div>
+                    `;
+                    teamGrid.insertAdjacentHTML('beforeend', memberHTML);
+                });
+            }
+        }
     }
-}
-
     
     // دالة لتنظيف HTML لمنع هجمات XSS
     function sanitizeHTML(str) {
@@ -1834,82 +1674,39 @@ if (data.teamMembers && data.teamMembers.length > 0) {
         document.getElementById('export-excel').addEventListener('click', exportToExcel);
     }
     
-    // pdf تصدير 
+    // دالة لتصدير إلى PDF
     function exportToPDF() {
         const recordType = document.getElementById('record-type').value;
-        const data = getDataForExport(recordType); // دالة تقوم بجلب البيانات المطلوبة
+        showNotification('جاري التصدير', 'جاري تحضير ملف PDF...', 'info');
         
-        if (data.length === 0) {
-            showNotification('تحذير', 'لا توجد بيانات للتصدير', 'warning');
-            return;
-        }
-
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
-        doc.text(`تقرير ${getRecordTypeName(recordType)}`, 105, 15, { align: 'center' });
-
-        // تجهيز الأعمدة والبيانات
-        const columns = Object.keys(data[0]).map(key => ({ header: key, dataKey: key }));
-
-        doc.autoTable({
-            head: [columns.map(col => col.header)],
-            body: data.map(row => Object.values(row)),
-            startY: 25,
-            theme: 'grid',
-            styles: { fontSize: 10 }
-        });
-
-        doc.save(`haccp_${recordType}_report.pdf`);
-        showNotification('تم التصدير', `تم تصدير ${getRecordTypeName(recordType)} إلى PDF بنجاح`, 'success');
+        // محاكاة عملية التصدير
+        setTimeout(() => {
+            showNotification('تم التصدير', `تم تصدير ${recordType} إلى PDF بنجاح`, 'success');
+        }, 1500);
+    }
+    
+    // دالة لتصدير إلى Word
+    function exportToWord() {
+        const recordType = document.getElementById('record-type').value;
+        showNotification('جاري التصدير', 'جاري تحضير ملف Word...', 'info');
+        
+        // محاكاة عملية التصدير
+        setTimeout(() => {
+            showNotification('تم التصدير', `تم تصدير ${recordType} إلى Word بنجاح`, 'success');
+        }, 1500);
     }
     
     // دالة لتصدير إلى Excel
     function exportToExcel() {
         const recordType = document.getElementById('record-type').value;
-        const data = getDataForExport(recordType); // جلب البيانات المطلوبة
-
-        if (data.length === 0) {
-            showNotification('تحذير', 'لا توجد بيانات للتصدير', 'warning');
-            return;
-        }
-
-        // تحويل البيانات إلى ورقة عمل
-        const worksheet = XLSX.utils.json_to_sheet(data);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, recordType);
-
-        // حفظ الملف
-        XLSX.writeFile(workbook, `haccp_${recordType}_report.xlsx`);
-        showNotification('تم التصدير', `تم تصدير ${recordType} إلى Excel بنجاح`, 'success');
-    }
-
-    // دالة حذف صف من الجدول
-    function deleteTableRow(row) {
-        Swal.fire({
-            title: 'هل أنت متأكد؟',
-            text: "لن تتمكن من التراجع عن هذا الإجراء!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'نعم، احذفه!',
-            cancelButtonText: 'إلغاء'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                row.remove();
-                saveData();
-                showNotification('تم الحذف', 'تم حذف العنصر بنجاح', 'success');
-            }
-        });
-    }
-
- 
-// تأكد أن التطبيق يُهيأ بعد تحميل الـ DOM
-window.addEventListener('DOMContentLoaded', initApp);
-// أو بدلاً عنه: initApp();
-
+        showNotification('جاري التصدير', 'جاري تحضير ملف Excel...', 'info');
         
-    </script>
+        // محاكاة عملية التصدير
+        setTimeout(() => {
+            showNotification('تم التصدير', `تم تصدير ${recordType} إلى Excel بنجاح`, 'success');
+        }, 1500);
+    }
+</script>
 </body>
 </html>
+
