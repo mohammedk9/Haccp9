@@ -1106,10 +1106,25 @@ function initAuth() {
             document.getElementById('user-info').style.display = 'none';
         }
     });
-
-    // ربط أحداث الأزرار
-    bindAuthEvents();
+// دوال إضافية للتبديل بين النماذج
+function showRegister(e) {
+    e.preventDefault();
+    hideModal('login-modal');
+    showModal('register-modal');
 }
+
+function showLogin(e) {
+    e.preventDefault();
+    hideModal('register-modal');
+    showModal('login-modal');
+}
+
+// ربط أحداث الأزرار مباشرة (بدون need for bindAuthEvents function)
+document.getElementById('login-btn').addEventListener('click', login);
+document.getElementById('register-btn').addEventListener('click', register);
+document.getElementById('logout-btn').addEventListener('click', logout);
+document.getElementById('show-register').addEventListener('click', showRegister);
+document.getElementById('show-login').addEventListener('click', showLogin);
 
 // ربط أحداث المصادقة
 function bindAuthEvents() {
