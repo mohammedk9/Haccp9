@@ -1674,37 +1674,54 @@ document.addEventListener('DOMContentLoaded', initAuth);
         document.getElementById('export-excel').addEventListener('click', exportToExcel);
     }
     
-    // دالة لتصدير إلى PDF
+   // pdf تصدير 
     function exportToPDF() {
         const recordType = document.getElementById('record-type').value;
-        showNotification('جاري التصدير', 'جاري تحضير ملف PDF...', 'info');
+        const data = getDataForExport(recordType); // دالة تقوم بجلب البيانات المطلوبة
         
-        // محاكاة عملية التصدير
-        setTimeout(() => {
-            showNotification('تم التصدير', `تم تصدير ${recordType} إلى PDF بنجاح`, 'success');
-        }, 1500);
-    }
-    
-    // دالة لتصدير إلى Word
-    function exportToWord() {
-        const recordType = document.getElementById('record-type').value;
-        showNotification('جاري التصدير', 'جاري تحضير ملف Word...', 'info');
-        
-        // محاكاة عملية التصدير
-        setTimeout(() => {
-            showNotification('تم التصدير', `تم تصدير ${recordType} إلى Word بنجاح`, 'success');
-        }, 1500);
+        if (data.length === 0) {
+            showNotification('تحذير', 'لا توجد بيانات للتصدير', 'warning');
+            return;
+        }
+
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        doc.text(`تقرير ${getRecordTypeName(recordType)}`, 105, 15, { align: 'center' });
+
+        // تجهيز الأعمدة والبيانات
+        const columns = Object.keys(data[0]).map(key => ({ header: key, dataKey: key }));
+
+        doc.autoTable({
+            head: [columns.map(col => col.header)],
+            body: data.map(row => Object.values(row)),
+            startY: 25,
+            theme: 'grid',
+            styles: { fontSize: 10 }
+        });
+
+        doc.save(`haccp_${recordType}_report.pdf`);
+        showNotification('تم التصدير', `تم تصدير ${getRecordTypeName(recordType)} إلى PDF بنجاح`, 'success');
     }
     
     // دالة لتصدير إلى Excel
     function exportToExcel() {
         const recordType = document.getElementById('record-type').value;
-        showNotification('جاري التصدير', 'جاري تحضير ملف Excel...', 'info');
-        
-        // محاكاة عملية التصدير
-        setTimeout(() => {
-            showNotification('تم التصدير', `تم تصدير ${recordType} إلى Excel بنجاح`, 'success');
-        }, 1500);
+        const data = getDataForExport(recordType); // جلب البيانات المطلوبة
+
+        if (data.length === 0) {
+            showNotification('تحذير', 'لا توجد بيانات للتصدير', 'warning');
+            return;
+        }
+
+        // تحويل البيانات إلى ورقة عمل
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, recordType);
+
+        // حفظ الملف
+        XLSX.writeFile(workbook, `haccp_${recordType}_report.xlsx`);
+        showNotification('تم التصدير', `تم تصدير ${recordType} إلى Excel بنجاح`, 'success');
     }
 </script>
 </body>
