@@ -1496,23 +1496,33 @@
             addPRPButton.addEventListener('click', addNewPRPRecord);
         }
         
-        // أحداث الحذف للعناصر
-        document.addEventListener('click', function(e) {
-            // التعامل مع حذف صف من الجداول
-            if (e.target.closest('.action-btn.btn-danger')) {
-                const row = e.target.closest('tr');
-                if (row) {
-                    deleteTableRow(row);
-                }
-            }
-            
-            // التعامل مع حذف عضو الفريق
-            if (e.target.closest('.btn-danger') && e.target.closest('.team-member')) {
-                const member = e.target.closest('.team-member');
-                deleteTeamMember(member);
-            }
-        });
+       // دالة لحذف صف من الجدول وتحديث التخزين المحلي
+function deleteTableRow(row) {
+    // حذف الصف من الـ DOM
+    row.remove();
+
+    // تحديث البيانات المخزنة (مثال مع سجلات الثلاجات)
+    const data = getDataFromLocalStorage();
+    const tableId = row.closest('table')?.id;
+
+    if (tableId === 'fridge-records-table') {
+        const cells = row.querySelectorAll('td');
+        const rec = {
+            date: cells[0]?.textContent?.trim(),
+            time: cells[1]?.textContent?.trim(),
+            location: cells[2]?.textContent?.trim(),
+        };
+
+        data.fridgeRecords = (data.fridgeRecords || []).filter(r =>
+            !(r.date === rec.date && r.time === rec.time && r.location === rec.location)
+        );
     }
+
+    // حفظ التعديلات
+    localStorage.setItem('haccpData', JSON.stringify(data));
+    saveData(); // يحفظ أيضًا في Firebase إذا كان المستخدم مسجل
+}
+
 
     // دالة إضافة سجل ثلاجة جديد
     function addNewFridgeRecord() {
@@ -1719,33 +1729,32 @@
         `;
     }
         
-    // تطبيق بيانات فريق الهاسب
-    if (data.teamMembers && data.teamMembers.length > 0) {
-        const teamGrid = document.getElementById('team-members');
-        if (teamGrid) {
-            teamGrid.innerHTML = '';
-            
-            data.teamMembers.forEach(member => {
-                const memberHTML = `
-                    <div class="team-member">
-                        <div class="avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <h4>${sanitizeHTML(member.name)}</h4>
-                        <div class="role">${sanitizeHTML(member.role)}</div>
-                        <div class="email">${sanitizeHTML(member.email)}</div>
-                        <div class="phone">${sanitizeHTML(member.phone)}</div>
-                        <p>${sanitizeHTML(member.responsibilities)}</p>
-                        <div class="actions">
-                            <button class="btn btn-warning"><i class="fas fa-edit"></i> <span data-translate="edit">تعديل</span></button>
-                            <button class="btn btn-danger"><i class="fas fa-trash"></i> <span data-translate="delete">حذف</span></button>
-                        </div>
+  // تطبيق بيانات فريق الهاسب — استخدام بيانات التخزين المحلي بطريقة آمنة
+const data = getDataFromLocalStorage();
+if (data.teamMembers && data.teamMembers.length > 0) {
+    const teamGrid = document.getElementById('team-members');
+    if (teamGrid) {
+        teamGrid.innerHTML = '';
+        data.teamMembers.forEach(member => {
+            const memberHTML = `
+                <div class="team-member">
+                    <div class="avatar"><i class="fas fa-user"></i></div>
+                    <h4>${sanitizeHTML(member.name)}</h4>
+                    <div class="role">${sanitizeHTML(member.role)}</div>
+                    <div class="email">${sanitizeHTML(member.email)}</div>
+                    <div class="phone">${sanitizeHTML(member.phone)}</div>
+                    <p>${sanitizeHTML(member.responsibilities)}</p>
+                    <div class="actions">
+                        <button class="btn btn-warning"><i class="fas fa-edit"></i> <span data-translate="edit">تعديل</span></button>
+                        <button class="btn btn-danger"><i class="fas fa-trash"></i> <span data-translate="delete">حذف</span></button>
                     </div>
-                `;
-                teamGrid.insertAdjacentHTML('beforeend', memberHTML);
-            });
-        }
+                </div>
+            `;
+            teamGrid.insertAdjacentHTML('beforeend', memberHTML);
+        });
     }
+}
+
     
     // دالة لتنظيف HTML لمنع هجمات XSS
     function sanitizeHTML(str) {
@@ -1899,6 +1908,11 @@
     document.addEventListener('DOMContentLoaded', () => {
         initApp();
     });
+// تأكد أن التطبيق يُهيأ بعد تحميل الـ DOM
+window.addEventListener('DOMContentLoaded', initApp);
+// أو بدلاً عنه: initApp();
+
+        
     </script>
 </body>
 </html>
