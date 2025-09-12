@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
+       :root {
             --primary-color: #1a5f7a;
             --secondary-color: #2c3e50;
             --accent-color: #3498db;
@@ -642,6 +642,29 @@
             color: var(--primary-color);
         }
 
+        /* Badges */
+        .badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge.completed {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .badge.in-progress {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .badge.pending {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
         @media (max-width: 768px) {
             .tab-btn {
                 padding: 12px 20px;
@@ -699,20 +722,12 @@
     </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="controls">
-                <button class="dark-mode-toggle" id="dark-mode-toggle">
-                    <i class="fas fa-moon"></i> وضع الليلي
-                </button>
-                <button class="language-toggle" id="language-toggle">
-                    <i class="fas fa-globe"></i> English
-                </button>
-            </div>
-            <h1><i class="fas fa-utensils"></i> نظام الهاسب (HACCP) المتكامل</h1>
-            <p>برنامج إدارة سلامة الغذاء في المملكة العربية السعودية</p>
-        </div>
-    </header>
+    <!-- شعار النظام -->
+    <div class="logo-container" style="text-align: center; margin: 20px 0;">
+        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0MCIgZmlsbD0iIzFhNWY3YSIgLz4KICA8cGF0aCBkPSJNMzAgNDBMNDAgNTBMNzAgMjBNNTAgMjVWNzVNNDAgNjBINjAiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNCIgLz4KPC9zdmc+" alt="شعار الهاسب" style="height: 80px; margin-bottom: 10px;">
+        <h1 style="color: var(--primary-color); margin: 0;">نظام الهاسب (HACCP) المتكامل</h1>
+        <p style="color: var(--secondary-color);">برنامج إدارة سلامة الغذاء في المملكة العربية السعودية</p>
+    </div>
     
     <div class="container">
         <div class="tabs">
@@ -799,40 +814,6 @@
                     </div>
                 </div>
                 
-                <div class="record-form" id="prp-form" style="display: none;">
-                    <h3><i class="fas fa-plus-circle"></i> إضافة متطلب جديد</h3>
-                    <div class="form-group">
-                        <label>نوع المتطلب:</label>
-                        <select id="prp-type" class="form-control">
-                            <option value="نظافة">نظافة وتطهير</option>
-                            <option value="صيانة">صيانة المعدات</option>
-                            <option value="تدريب">تدريب العاملين</option>
-                            <option value="مكافحة">مكافحة الآفات</option>
-                            <option value="تتبع">تتبع المنتجات</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>وصف المتطلب:</label>
-                        <textarea id="prp-description" class="form-control" rows="3" placeholder="وصف المتطلب..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>مسؤول التنفيذ:</label>
-                        <input type="text" id="prp-responsible" class="form-control" placeholder="اسم المسؤول">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>تاريخ البدء:</label>
-                            <input type="date" id="prp-start-date" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>تاريخ الانتهاء:</label>
-                            <input type="date" id="prp-end-date" class="form-control">
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" id="save-prp"><i class="fas fa-save"></i> حفظ</button>
-                    <button class="btn btn-danger" id="cancel-prp"><i class="fas fa-times"></i> إلغاء</button>
-                </div>
-                
                 <table id="prp-table">
                     <thead>
                         <tr>
@@ -850,24 +831,24 @@
                             <td>نظافة وتطهير</td>
                             <td>تنظيف وتعقيم جميع الأسطح الملامسة للغذاء</td>
                             <td>أحمد محمد</td>
-                            <td>2023-10-01</td>
-                            <td>2023-10-05</td>
+                            <td>2025-10-01</td>
+                            <td>2025-10-05</td>
                             <td><span class="badge completed">مكتمل</span></td>
                             <td>
-                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
                             <td>تدريب العاملين</td>
                             <td>تدريب العاملين على مبادئ النظافة الشخصية</td>
                             <td>سارة عبدالله</td>
-                            <td>2023-10-10</td>
-                            <td>2023-10-12</td>
+                            <td>2025-10-10</td>
+                            <td>2025-10-12</td>
                             <td><span class="badge in-progress">قيد التنفيذ</span></td>
                             <td>
-                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -884,32 +865,6 @@
                     <div class="card-controls">
                         <button class="btn btn-primary" id="add-ccp"><i class="fas fa-plus"></i> إضافة نقطة تحكم</button>
                     </div>
-                </div>
-                
-                <div class="record-form" id="ccp-form" style="display: none;">
-                    <h3><i class="fas fa-plus-circle"></i> إضافة نقطة تحكم حرجة جديدة</h3>
-                    <div class="form-group">
-                        <label>الخطوة/العملية:</label>
-                        <input type="text" id="ccp-step" class="form-control" placeholder="مثال: تخزين اللحوم">
-                    </div>
-                    <div class="form-group">
-                        <label>نقطة المراقبة:</label>
-                        <input type="text" id="ccp-monitoring" class="form-control" placeholder="مثال: درجة الحرارة">
-                    </div>
-                    <div class="form-group">
-                        <label>الحدود الحرجة:</label>
-                        <input type="text" id="ccp-limit" class="form-control" placeholder="مثال: ≤5°م">
-                    </div>
-                    <div class="form-group">
-                        <label>الإجراء التصحيحي:</label>
-                        <textarea id="ccp-action" class="form-control" rows="3" placeholder="وصف الإجراء التصحيحي..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>مسؤول المراقبة:</label>
-                        <input type="text" id="ccp-responsible" class="form-control" placeholder="اسم المسؤول">
-                    </div>
-                    <button class="btn btn-primary" id="save-ccp"><i class="fas fa-save"></i> حفظ</button>
-                    <button class="btn btn-danger" id="cancel-ccp"><i class="fas fa-times"></i> إلغاء</button>
                 </div>
                 
                 <table id="ccp-table">
@@ -931,8 +886,8 @@
                             <td>نقل إلى ثلاجة احتياطية</td>
                             <td>محمد أحمد</td>
                             <td>
-                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -942,19 +897,8 @@
                             <td>زيادة وقت الطهي</td>
                             <td>خالد حسن</td>
                             <td>
-                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>تبريد الأطعمة</td>
-                            <td>زمن التبريد</td>
-                            <td>≤90 دقيقة</td>
-                            <td>تعديل طريقة التبريد</td>
-                            <td>سارة عبدالله</td>
-                            <td>
-                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -973,44 +917,6 @@
                     </div>
                 </div>
                 
-                <div class="record-form" id="fridge-form" style="display: none;">
-                    <h3><i class="fas fa-plus-circle"></i> إضافة سجل جديد لدرجة الحرارة</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>التاريخ:</label>
-                            <input type="date" id="record-date" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>الوقت:</label>
-                            <input type="time" id="record-time" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>الموقع:</label>
-                        <select id="record-location" class="form-control">
-                            <option value="ثلاجة اللحوم">ثلاجة اللحوم</option>
-                            <option value="ثلاجة الخضروات">ثلاجة الخضروات</option>
-                            <option value="ثلاجة الألبان">ثلاجة الألبان</option>
-                            <option value="الفريزر">الفريزر</option>
-                            <option value=" أخرى"> أخرى</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>درجة الحرارة:</label>
-                        <input type="number" id="record-temperature" class="form-control" placeholder="درجة الحرارة بالمئوية">
-                    </div>
-                    <div class="form-group">
-                        <label>المسؤول:</label>
-                        <input type="text" id="record-responsible" class="form-control" placeholder="اسم المسؤول">
-                    </div>
-                    <div class="form-group">
-                        <label>ملاحظات:</label>
-                        <textarea id="record-notes" class="form-control" rows="3" placeholder="أي ملاحظات..."></textarea>
-                    </div>
-                    <button class="btn btn-primary" id="save-record"><i class="fas fa-save"></i> حفظ</button>
-                    <button class="btn btn-danger" id="cancel-record"><i class="fas fa-times"></i> إلغاء</button>
-                </div>
-                
                 <table id="fridge-records-table">
                     <thead>
                         <tr>
@@ -1025,39 +931,27 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>2023-10-25</td>
+                            <td>2025-10-25</td>
                             <td>08:00</td>
                             <td>ثلاجة اللحوم</td>
                             <td>4.5°م</td>
                             <td>محمد أحمد</td>
                             <td>درجة حرارة طبيعية</td>
                             <td>
-                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
-                            <td>2023-10-25</td>
+                            <td>2025-10-25</td>
                             <td>12:00</td>
                             <td>ثلاجة الخضروات</td>
                             <td>5.2°م</td>
                             <td>سارة عبدالله</td>
                             <td>درجة حرارة ضمن المعدل الطبيعي</td>
                             <td>
-                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>2023-10-25</td>
-                            <td>16:00</td>
-                            <td>الفريزر</td>
-                            <td>-18°م</td>
-                            <td>خالد حسن</td>
-                            <td>درجة حرارة مثالية</td>
-                            <td>
-                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -1076,47 +970,6 @@
                     </div>
                 </div>
                 
-                <div class="record-form" id="verification-form" style="display: none;">
-                    <h3><i class="fas fa-plus-circle"></i> إضافة مراجعة جديدة</h3>
-                    <div class="form-group">
-                        <label>نوع المراجعة:</label>
-                        <select id="verification-type" class="form-control">
-                            <option value="تدقيق">تدقيق داخلي</option>
-                            <option value="معايرة">معايرة الأجهزة</option>
-                            <option value="مراجعة">مراجعة الإدارة</option>
-                            <option value="اختبار">اختبار الكفاءة</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>وصف المراجعة:</label>
-                        <textarea id="verification-description" class="form-control" rows="3" placeholder="وصف المراجعة..."></textarea>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>تاريخ المراجعة:</label>
-                            <input type="date" id="verification-date" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>المسؤول:</label>
-                            <input type="text" id="verification-responsible" class="form-control" placeholder="اسم المسؤول">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>النتيجة:</label>
-                        <select id="verification-result" class="form-control">
-                            <option value="مطابق">مطابق</option>
-                            <option value="غير مطابق">غير مطابق</option>
-                            <option value="需要 إجراء">需要 إجراء تصحيحي</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>ملاحظات:</label>
-                        <textarea id="verification-notes" class="form-control" rows="3" placeholder="أي ملاحظات..."></textarea>
-                    </div>
-                    <button class="btn btn-primary" id="save-verification"><i class="fas fa-save"></i> حفظ</button>
-                    <button class="btn btn-danger" id="cancel-verification"><i class="fas fa-times"></i> إلغاء</button>
-                </div>
-                
                 <table id="verification-table">
                     <thead>
                         <tr>
@@ -1133,13 +986,13 @@
                         <tr>
                             <td>معايرة الأجهزة</td>
                             <td>معايرة أجهزة قياس درجة الحرارة</td>
-                            <td>2023-10-20</td>
+                            <td>2025-10-20</td>
                             <td>أحمد محمد</td>
                             <td><span class="badge completed">مطابق</span></td>
                             <td>جميع الأجهزة تعمل بشكل صحيح</td>
                             <td>
-                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                         <tr>
@@ -1150,8 +1003,8 @@
                             <td><span class="badge in-progress">需要 إجراء</span></td>
                             <td>يوجد تقصير في تسجيل بعض البيانات</td>
                             <td>
-                                <button class="action-btn btn-primary"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="action-btn btn-primary edit-btn"><i class="fas fa-edit"></i></button>
+                                <button class="action-btn btn-danger delete-btn"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -1170,36 +1023,6 @@
                     </div>
                 </div>
                 
-                <div class="team-form" id="member-form" style="display: none;">
-                    <h3><i class="fas fa-plus-circle"></i> إضافة عضو جديد للفريق</h3>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>الاسم الكامل:</label>
-                            <input type="text" id="member-name" class="form-control" placeholder="الاسم الكامل">
-                        </div>
-                        <div class="form-group">
-                            <label>الدور/المسمى الوظيفي:</label>
-                            <input type="text" id="member-role" class="form-control" placeholder="الدور في الفريق">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>البريد الإلكتروني:</label>
-                            <input type="email" id="member-email" class="form-control" placeholder="example@email.com">
-                        </div>
-                        <div class="form-group">
-                            <label>رقم الهاتف:</label>
-                            <input type="tel" id="member-phone" class="form-control" placeholder="+966XXXXXXXXX">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>المسؤوليات:</label>
-                        <textarea id="member-responsibilities" class="form-control" rows="3" placeholder="المسؤوليات والواجبات..."></textarea>
-                    </div>
-                    <button class="btn btn-primary" id="save-member"><i class="fas fa-save"></i> حفظ</button>
-                    <button class="btn btn-danger" id="cancel-member"><i class="fas fa-times"></i> إلغاء</button>
-                </div>
-                
                 <div class="team-grid" id="team-members">
                     <div class="team-member">
                         <div class="avatar">
@@ -1208,11 +1031,11 @@
                         <h4>أحمد محمد</h4>
                         <div class="role">مدير الجودة</div>
                         <div class="email">ahmed@example.com</div>
-                        <div class="phone">+966500000000</div>
+                        <div class="phone">+966</div>
                         <p>مسؤول عن متابعة تطبيق نظام الهاسب ومراجعة السجلات</p>
                         <div class="actions">
-                            <button class="btn btn-warning"><i class="fas fa-edit"></i> تعديل</button>
-                            <button class="btn btn-danger"><i class="fas fa-trash"></i> حذف</button>
+                            <button class="btn btn-warning edit-btn"><i class="fas fa-edit"></i> تعديل</button>
+                            <button class="btn btn-danger delete-btn"><i class="fas fa-trash"></i> حذف</button>
                         </div>
                     </div>
                     <div class="team-member">
@@ -1222,25 +1045,11 @@
                         <h4>سارة عبدالله</h4>
                         <div class="role">منسق الهاسب</div>
                         <div class="email">sara@example.com</div>
-                        <div class="phone">+966511111111</div>
+                        <div class="phone">+966</div>
                         <p>مسؤولة عن تدريب الموظفين ومتابعة تنفيذ الإجراءات التصحيحية</p>
                         <div class="actions">
-                            <button class="btn btn-warning"><i class="fas fa-edit"></i> تعديل</button>
-                            <button class="btn btn-danger"><i class="fas fa-trash"></i> حذف</button>
-                        </div>
-                    </div>
-                    <div class="team-member">
-                        <div class="avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <h4>خالد حسن</h4>
-                        <div class="role">مراقب الجودة</div>
-                        <div class="email">khaled@example.com</div>
-                        <div class="phone">+966522222222</div>
-                        <p>مسؤول عن مراقبة نقاط التحكم الحرجة وجمع البيانات</p>
-                        <div class="actions">
-                            <button class="btn btn-warning"><i class="fas fa-edit"></i> تعديل</button>
-                            <button class="btn btn-danger"><i class="fas fa-trash"></i> حذف</button>
+                            <button class="btn btn-warning edit-btn"><i class="fas fa-edit"></i> تعديل</button>
+                            <button class="btn btn-danger delete-btn"><i class="fas fa-trash"></i> حذف</button>
                         </div>
                     </div>
                 </div>
@@ -1285,10 +1094,58 @@
         
     </div>
 
+    <!-- نافذة تسجيل الدخول -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</h2>
+            <div class="form-group">
+                <input type="email" id="login-email" class="form-control" placeholder="البريد الإلكتروني">
+            </div>
+            <div class="form-group">
+                <input type="password" id="login-password" class="form-control" placeholder="كلمة المرور">
+            </div>
+            <button class="btn btn-primary" id="login-btn" style="width: 100%;">تسجيل الدخول</button>
+            <p style="margin-top: 15px;">ليس لديك حساب؟ <a href="#" id="show-register">إنشاء حساب</a></p>
+        </div>
+    </div>
+
+    <!-- نافذة إنشاء حساب -->
+    <div class="modal" id="register-modal">
+        <div class="modal-content">
+            <h2><i class="fas fa-user-plus"></i> إنشاء حساب جديد</h2>
+            <div class="form-group">
+                <input type="text" id="register-name" class="form-control" placeholder="الاسم الكامل">
+            </div>
+            <div class="form-group">
+                <input type="email" id="register-email" class="form-control" placeholder="البريد الإلكتروني">
+            </div>
+            <div class="form-group">
+                <input type="password" id="register-password" class="form-control" placeholder="كلمة المرور">
+            </div>
+            <button class="btn btn-primary" id="register-btn" style="width: 100%;">إنشاء حساب</button>
+            <p style="margin-top: 15px;">لديك حساب بالفعل؟ <a href="#" id="show-login">تسجيل الدخول</a></p>
+        </div>
+    </div>
+
     <script>
         // عناصر التحكم الرئيسية
-        const darkModeToggle = document.getElementById('dark-mode-toggle');
-        const languageToggle = document.getElementById('language-toggle');
+        const darkModeToggle = document.createElement('button');
+        darkModeToggle.className = 'dark-mode-toggle';
+        darkModeToggle.innerHTML = '<i class="fas fa-moon"></i> وضع الليلي';
+        darkModeToggle.id = 'dark-mode-toggle';
+
+        const languageToggle = document.createElement('button');
+        languageToggle.className = 'language-toggle';
+        languageToggle.innerHTML = '<i class="fas fa-globe"></i> English';
+        languageToggle.id = 'language-toggle';
+
+        const controlsContainer = document.createElement('div');
+        controlsContainer.className = 'controls';
+        controlsContainer.appendChild(darkModeToggle);
+        controlsContainer.appendChild(languageToggle);
+
+        document.querySelector('header .container').prepend(controlsContainer);
+
         const tabButtons = document.querySelectorAll('.tab-btn');
         const tabContents = document.querySelectorAll('.tab-content');
         const loader = document.getElementById('main-loader');
@@ -1301,11 +1158,8 @@
             // إعداد مستمعي الأحداث
             setupEventListeners();
             
-            // تهيئة الرسوم البيانية
-            initCharts();
-            
-            // إعداد نماذج الإضافة
-            setupForms();
+            // عرض نافذة تسجيل الدخول
+            showLoginModal();
         }
 
         // تحميل التفضيلات
@@ -1340,26 +1194,22 @@
                 });
             });
             
-            // أحداث الأزرار
-            document.getElementById('add-prp').addEventListener('click', () => toggleForm('prp-form'));
-            document.getElementById('add-ccp').addEventListener('click', () => toggleForm('ccp-form'));
-            document.getElementById('add-fridge-record').addEventListener('click', () => toggleForm('fridge-form'));
-            document.getElementById('add-verification').addEventListener('click', () => toggleForm('verification-form'));
-            document.getElementById('add-member').addEventListener('click', () => toggleForm('member-form'));
+            // أحداث الحذف
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const item = this.closest('tr') || this.closest('.team-member');
+                    if (item) {
+                        showDeleteConfirmation(item);
+                    }
+                });
+            });
             
-            // أحداث حفظ النماذج
-            document.getElementById('save-prp').addEventListener('click', () => saveForm('prp'));
-            document.getElementById('save-ccp').addEventListener('click', () => saveForm('ccp'));
-            document.getElementById('save-record').addEventListener('click', () => saveForm('fridge'));
-            document.getElementById('save-verification').addEventListener('click', () => saveForm('verification'));
-            document.getElementById('save-member').addEventListener('click', () => saveForm('member'));
-            
-            // أحداث إلغاء النماذج
-            document.getElementById('cancel-prp').addEventListener('click', () => toggleForm('prp-form'));
-            document.getElementById('cancel-ccp').addEventListener('click', () => toggleForm('ccp-form'));
-            document.getElementById('cancel-record').addEventListener('click', () => toggleForm('fridge-form'));
-            document.getElementById('cancel-verification').addEventListener('click', () => toggleForm('verification-form'));
-            document.getElementById('cancel-member').addEventListener('click', () => toggleForm('member-form'));
+            // أحداث التسجيل والدخول
+            document.getElementById('login-btn').addEventListener('click', login);
+            document.getElementById('register-btn').addEventListener('click', register);
+            document.getElementById('show-register').addEventListener('click', showRegisterModal);
+            document.getElementById('show-login').addEventListener('click', showLoginModal);
             
             // أحداث التصدير
             document.getElementById('export-pdf').addEventListener('click', exportToPDF);
@@ -1410,31 +1260,73 @@
             document.getElementById(tabId).classList.add('active');
         }
 
-        // عرض/إخفاء النماذج
-        function toggleForm(formId) {
-            const form = document.getElementById(formId);
-            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        // عرض نافذة تأكيد الحذف
+        function showDeleteConfirmation(item) {
+            if (confirm('هل أنت متأكد من أنك تريد حذف هذا العنصر؟')) {
+                item.remove();
+                showNotification('تم الحذف', 'تم حذف العنصر بنجاح', 'success');
+            }
         }
 
-        // حفظ النماذج
-        function saveForm(type) {
-            // هنا سيتم حفظ البيانات حسب النوع
-            showNotification('تم الحفظ', `تم حفظ ${getTypeName(type)} بنجاح`, 'success');
-            toggleForm(`${type}-form`);
+        // تسجيل الدخول
+        function login() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
             
-            // في التطبيق الحقيقي، سيتم هنا حفظ البيانات في Firebase
+            if (!email || !password) {
+                showNotification('خطأ', 'يرجى ملء جميع الحقول', 'error');
+                return;
+            }
+            
+            // محاكاة عملية تسجيل الدخول
+            showLoader();
+            setTimeout(() => {
+                hideLoader();
+                hideLoginModal();
+                showNotification('تم تسجيل الدخول', 'مرحباً بعودتك!', 'success');
+            }, 1500);
         }
 
-        // الحصول على اسم النوع بالعربية
-        function getTypeName(type) {
-            const names = {
-                'prp': 'المتطلب',
-                'ccp': 'نقطة التحكم',
-                'fridge': 'سجل الثلاجة',
-                'verification': 'المراجعة',
-                'member': 'عضو الفريق'
-            };
-            return names[type] || 'العنصر';
+        // إنشاء حساب
+        function register() {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            
+            if (!name || !email || !password) {
+                showNotification('خطأ', 'يرجى ملء جميع الحقول', 'error');
+                return;
+            }
+            
+            // محاكاة عملية إنشاء الحساب
+            showLoader();
+            setTimeout(() => {
+                hideLoader();
+                hideRegisterModal();
+                showNotification('تم إنشاء الحساب', 'تم إنشاء حسابك بنجاح!', 'success');
+            }, 1500);
+        }
+
+        // عرض نافذة تسجيل الدخول
+        function showLoginModal() {
+            document.getElementById('login-modal').style.display = 'flex';
+            document.getElementById('register-modal').style.display = 'none';
+        }
+
+        // إخفاء نافذة تسجيل الدخول
+        function hideLoginModal() {
+            document.getElementById('login-modal').style.display = 'none';
+        }
+
+        // عرض نافذة إنشاء حساب
+        function showRegisterModal() {
+            document.getElementById('register-modal').style.display = 'flex';
+            document.getElementById('login-modal').style.display = 'none';
+        }
+
+        // إخفاء نافذة إنشاء حساب
+        function hideRegisterModal() {
+            document.getElementById('register-modal').style.display = 'none';
         }
 
         // تصدير إلى PDF
@@ -1508,24 +1400,6 @@
         // إخفاء مؤشر التحميل
         function hideLoader() {
             loader.style.display = 'none';
-        }
-
-        // تهيئة الرسوم البيانية
-        function initCharts() {
-            const ccpCtx = document.getElementById('ccp-chart');
-            if (ccpCtx) {
-                // سيتم تهيئة الرسم البياني هنا
-                ccpCtx.innerHTML = '<p style="text-align: center; padding: 50px;">رسم بياني يعرض حالات نقاط التحكم الحرجة</p>';
-            }
-        }
-
-        // إعداد النماذج
-        function setupForms() {
-            // تعيين التاريخ الحالي كقيمة افتراضية
-            const today = new Date().toISOString().split('T')[0];
-            document.querySelectorAll('input[type="date"]').forEach(input => {
-                if (!input.value) input.value = today;
-            });
         }
 
         // تهيئة التطبيق عند تحميل الصفحة
